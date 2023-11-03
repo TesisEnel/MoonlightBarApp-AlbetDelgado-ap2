@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.kotlin.moonlightbarapp.ui.theme.MoonlightBar.CocktailList
+import com.kotlin.moonlightbarapp.ui.theme.MoonlightBar.cocktails
 import com.kotlin.moonlightbarapp.ui.theme.MoonlightBarAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    CocktailList(cocktails)
                 }
             }
         }
