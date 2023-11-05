@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -23,7 +24,7 @@ import androidx.core.view.WindowCompat
 
 
 private val LightColors = lightColorScheme(
-    primary = md_theme_light_primary,
+    primary = morado_tema_claro_primary,
     onPrimary = md_theme_light_onPrimary,
     primaryContainer = md_theme_light_primaryContainer,
     onPrimaryContainer = md_theme_light_onPrimaryContainer,
@@ -117,4 +118,13 @@ fun MoonlightBarAppTheme(
         typography = Typography,
         content = content
     )
+}
+@Composable
+fun MyAppBar() {
+    // Puedes cambiar el color aquí
+    val appBarColor = morado_tema_claro_primary
+
+    Surface(color = appBarColor) {
+
+    }
 }

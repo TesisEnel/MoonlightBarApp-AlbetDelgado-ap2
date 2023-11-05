@@ -11,7 +11,7 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 
-val md_theme_light_primary = Color(0xFF6750A4)
+val morado_tema_claro_primary = Color(0xFF6750A4)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFEADDFF)
 val md_theme_light_onPrimaryContainer = Color(0xFF21005D)
