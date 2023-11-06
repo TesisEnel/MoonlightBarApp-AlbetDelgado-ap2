@@ -1,8 +1,8 @@
-package com.kotlin.moonlightbarapp.ui.theme.MoonlightBar
+package com.kotlin.moonlightbarapp.ui.moonlightBar
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 
@@ -13,24 +13,22 @@ import androidx.compose.foundation.layout.Row
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,33 +45,38 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kotlin.moonlightbarapp.R
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.ui.draw.shadow
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.drawscope.DrawStyle
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
-import com.kotlin.moonlightbarapp.ui.theme.md_theme_light_surfaceTint
-import com.kotlin.moonlightbarapp.ui.theme.morado_tema_claro_primary
+import com.kotlin.moonlightbarapp.ui.componentes.MyTextField
+import com.kotlin.moonlightbarapp.ui.theme.Morado100
+import com.kotlin.moonlightbarapp.ui.theme.Morado40
 
-data class Coctel (val name: String)
+data class Coctel(val name: String)
+
 val cocktails = listOf(
     Coctel("Romo"),
     Coctel("Cerveza"),
     Coctel("Cleren"),
     Coctel("Ani"),
     Coctel("Agua"),
-    Coctel("Wiki")
 )
 
 
@@ -82,6 +85,7 @@ fun CocktailCard(cocktail: Coctel) {
 
     Card(
         shape = RoundedCornerShape(10.dp),
+        elevation = CardDefaults.elevatedCardElevation(10.dp),
         modifier = Modifier
             .padding(10.dp)
             .size(width = 180.dp, height = 100.dp)
@@ -124,15 +128,12 @@ fun CocktailGrid(cocktails: List<Coctel>) {
         contentPadding = PaddingValues(8.dp),
 
 
-
-    ) {
+        ) {
 
         items(cocktails) { cocktail ->
             CocktailCard(cocktail)
         }
     }
-
-
 
 
 }
@@ -146,7 +147,12 @@ fun CotelTopBar() {
 
         topBar = {
             TopAppBar(
-
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = Morado40,
+                    titleContentColor = Morado100,
+                    navigationIconContentColor = Morado100,
+                    actionIconContentColor = Morado100
+                ),
                 title = {
                     Text(
                         "Moonlight Bar",
@@ -157,12 +163,10 @@ fun CotelTopBar() {
                             fontSize = 25.sp,
                             fontFamily = FontFamily.Cursive,
                             fontWeight = FontWeight.Bold,
-                            color = morado_tema_claro_primary,
                             shadow = Shadow(Color.Yellow),
                             textAlign = TextAlign.Center
-
-                        )
-
+                        ),
+                        modifier = Modifier.fillMaxWidth()
 
 
                     )
@@ -172,57 +176,88 @@ fun CotelTopBar() {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = "Localized description",
-                            tint = morado_tema_claro_primary,
 
-                        )
+
+                            )
                     }
                 },
                 actions = {
                     IconButton(onClick = { /* doSomething() */ }) {
                         Icon(
-                            imageVector =Icons.Filled.Bedtime,
+                            imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",
-                            tint = md_theme_light_surfaceTint
 
-                        )
+
+                            )
                     }
                 }
             )
         },
         content = { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
+                CustomArc()
+                Column {
+                    MyTextField(
+                        modificador = Modifier.offset(y = (-5).dp),
+                        valor = "",
+                        alCambiarValor = {},
+                        iconoDerecho = {
+                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                        },
+                        iconoIzquierdo = {
+                            Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                        },
+                        textoQueDesaparece = "Buscar Coctel"
+
+                    )
 
 
 
-                CocktailGrid(cocktails) // Aquí cambiamos LazyColumn por CocktailGrid
+                    CocktailGrid(cocktails) //coctels
+                }
             }
+
+
         }
     )
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBarComponent() {
-    var text by rememberSaveable { mutableStateOf("") }
+fun CustomArc() {
+    Canvas(modifier = Modifier.size(width = 1000.dp, height = 90.dp))
+    {
+    drawRect(
+        color = Morado40,
+        topLeft = Offset.Zero,
 
-    OutlinedTextField(
-        value = text,
-        onValueChange = { text = it },
-        label = { Text("Hinted search text") },
-        modifier = Modifier
-
-            .fillMaxWidth(),
-        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-        trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
     )
+    }
+    Canvas(modifier = Modifier.size(width = 1000.dp, height = 60.dp).offset(y = 61.dp))
+    {
+        drawArc(
+            color = Morado100,
+            startAngle = 180f,
+            sweepAngle = 180f,
+            useCenter = false,
+            topLeft = Offset.Zero,
+            size = this.size,
+            //style = Stroke(150f)
 
+        )
+    }
 }
+
+
+
+
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     MaterialTheme {
+        // CustomArc()
         CotelTopBar()
 
-        }
     }
+}
