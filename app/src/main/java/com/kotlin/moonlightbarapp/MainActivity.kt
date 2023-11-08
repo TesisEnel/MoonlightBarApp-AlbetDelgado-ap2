@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.kotlin.moonlightbarapp.ui.moonlightBar.CotelTopBar
 
 import com.kotlin.moonlightbarapp.ui.theme.MoonlightBarAppTheme
-import com.kotlin.moonlightbarapp.ui.theme.MyAppBar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
