@@ -166,7 +166,8 @@ fun CotelTopBar() {
                             fontFamily = FontFamily.Cursive,
                             fontWeight = FontWeight.Bold,
                             shadow = Shadow(Color.Yellow),
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+
                         ),
                         modifier = Modifier.fillMaxWidth()
 
