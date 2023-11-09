@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -23,24 +24,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kotlin.moonlightbarapp.R
+import com.kotlin.moonlightbarapp.ui.theme.DeepViolett20
+import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
+import com.kotlin.moonlightbarapp.ui.theme.DeepViolett90
+import com.kotlin.moonlightbarapp.ui.theme.Gris30
+import com.kotlin.moonlightbarapp.ui.theme.Gris40
+import com.kotlin.moonlightbarapp.ui.theme.Gris_Morado10
+import com.kotlin.moonlightbarapp.ui.theme.Morado15
+import com.kotlin.moonlightbarapp.ui.theme.Morado40
+import com.kotlin.moonlightbarapp.ui.theme.Morado90
 
 @Preview
 @Composable
 fun LoginScreen(){
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onPrimaryContainer)
+        modifier = Modifier.fillMaxSize()
+            .background(color = Morado40)
+
 
     ){
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            painter = painterResource(id = R.drawable.logoblanco),
             contentDescription = "Login Image",
             contentScale = ContentScale.Inside
         )
 
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .padding(3.dp),
             contentAlignment = Alignment.BottomCenter
         ){
             Surface(
@@ -58,7 +69,7 @@ fun LoginScreen(){
 
             FloatingActionButton(
                 modifier = Modifier.size(72.dp),
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = Morado90,
                 onClick = {}
             ) {
                 Icon(
