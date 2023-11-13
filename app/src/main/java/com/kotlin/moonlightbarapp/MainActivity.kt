@@ -1,5 +1,6 @@
 package com.kotlin.moonlightbarapp
 
+import CopaLiquido
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     //AddCoctelScrean()
                    CotelTopBar()
+
                 }
             }
         }

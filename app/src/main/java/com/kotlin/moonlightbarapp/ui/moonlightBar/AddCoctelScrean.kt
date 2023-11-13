@@ -1,75 +1,85 @@
-package com.kotlin.moonlightbarapp.ui.moonlightBar
-
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kotlin.moonlightbarapp.R
+import com.kotlin.moonlightbarapp.ui.moonlightBar.CotelTopBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddCoctelScrean() {
+fun CopaLiquido() {
+    var progress by remember { mutableStateOf(0f) }
 
-    val sizeImagen = 70.dp
-    Row(
+    // Configuración de la animación
+    val transition = updateTransition(targetState = progress, label = "progress")
+
+    // Escala para simular el llenado de líquido
+    val scale by transition.animateFloat(
+        transitionSpec = { tween(durationMillis = 1000, easing = FastOutSlowInEasing) },
+        label = "scale"
+    ) {
+        if (it == 1f) 1.01f else it
+    }
+
+    // Configuración de la animación de color
+    val color by transition.animateColor(
+        transitionSpec = { tween(durationMillis = 1000, easing = FastOutSlowInEasing) },
+        label = "color"
+    ) {
+        if (it == 1f) Color.Green else Color.Blue
+    }
+
+    // Diseño de la copa
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        // Copa
+        Box(
+            modifier = Modifier
+                .size(100.dp, 200.dp)
+                .background(color = Color.Gray)
+                .clip(CircleShape)
+        ) {
+            // Líquido
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(scale)
+                    .background(color = color)
+                    .clip(CircleShape)
+            )
+        }
 
-        )
-    {
-        var text by rememberSaveable { mutableStateOf("Mi trago") }
-        OutlinedTextField(
-            value = text,
-            onValueChange = { text = it },
-            label = { Text("Nombre") },
-            modifier = Modifier
-                .weight(1f)
-                .size(sizeImagen)
-        )
-        Image(
-            painter = painterResource(id = R.drawable.coctel1),
-            contentDescription = "probando",
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .size(sizeImagen)
-        )
+        // Botón para llenar la copa
+        Button(onClick = {
+            progress = 1f
+        }) {
+            Text("Llenar Copa")
+        }
     }
 }
-//        Text(
-////            text="Mi Margarita", style = MaterialTheme.typography.headlineMedium)
-//        Text(
-//            text="Las Margarita es un clásico. Es el cóctel a base de tequila más popular de Estados Unidos.",
-//            style = MaterialTheme.typography.bodyMedium)
-//        Text(
-//            "Ingredientes:", style = MaterialTheme.typography.headlineMedium)
-//
-//        val ingredients = listOf(
-//            "Tequila - 50 ml - Opcional",
-//            "Guarnición - 10 ml - Opcional",
-//            "Azúcar - 2 grs - Opcional",
-//            "Garnish - Opcional"
-//        )
-//
-//        ingredients.forEach { ingredient ->
-//            Text(ingredient, style = MaterialTheme.typography.bodyMedium)
-//        }
-//
-//        Button(onClick = { /* TODO: Handle click */ }) {
-//            Text("Agregar más ingredientes")
-//        }
-//    }
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    MaterialTheme {
+        // CustomArc()
+        CopaLiquido()
+
+
+    }
+}
