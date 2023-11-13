@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Settings
@@ -225,7 +226,7 @@ fun CotelTopBar() {
                         onClick = { /* do something */ },
                         modifier = Modifier.align(Alignment.End)
                     ) {
-                        Icon(Icons.Filled.Add, "Localized description")
+                        Icon(Icons.Filled.Shuffle, "Localized description")
                     }
 
                 }

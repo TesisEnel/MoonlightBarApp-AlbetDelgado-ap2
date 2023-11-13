@@ -9,8 +9,9 @@ import com.kotlin.moonlightbarapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
+import javax.inject.Inject
 
-class RandomRepository (private var api: RandomApi) {
+class RandomRepository @Inject constructor (private var api: RandomApi) {
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     fun getRandomCocktail(): Flow<Resource<DrinkDto>> = flow {
         try {
