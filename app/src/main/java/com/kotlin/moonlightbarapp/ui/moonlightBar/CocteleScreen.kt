@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -27,9 +29,14 @@ import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -55,6 +62,7 @@ import com.kotlin.moonlightbarapp.R
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -113,7 +121,7 @@ fun CocktailCard(cocktail: Coctel) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Nivel: Medio",
+                    text = "Dificultad: Medio",
                     fontStyle = FontStyle.Italic
                 )
             }
@@ -129,14 +137,11 @@ fun CocktailGrid(cocktails: List<Coctel>) {
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp),
 
-
         ) {
-
         items(cocktails) { cocktail ->
             CocktailCard(cocktail)
         }
     }
-
 
 }
 
@@ -145,6 +150,8 @@ fun CocktailGrid(cocktails: List<Coctel>) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CotelTopBar() {
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
 
         topBar = {
@@ -168,20 +175,18 @@ fun CotelTopBar() {
                             shadow = Shadow(Color.Yellow),
                             textAlign = TextAlign.Center,
 
-                        ),
+                            ),
                         modifier = Modifier.fillMaxWidth()
 
 
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = { expanded = true }) {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = "Localized description",
-
-
-                            )
+                        )
                     }
                 },
                 actions = {
@@ -224,9 +229,8 @@ fun CotelTopBar() {
                     }
 
                 }
-
+                MenuSample(expanded = expanded, onDismiss = { expanded = false })
             }
-
 
 
         }
@@ -234,6 +238,7 @@ fun CotelTopBar() {
     )
 
 }
+
 @Composable
 fun FloatingActionButtonSample() {
     FloatingActionButton(
@@ -247,13 +252,17 @@ fun FloatingActionButtonSample() {
 fun CustomArc() {
     Canvas(modifier = Modifier.size(width = 1000.dp, height = 90.dp))
     {
-    drawRect(
-        color = Morado40,
-        topLeft = Offset.Zero,
+        drawRect(
+            color = Morado40,
+            topLeft = Offset.Zero,
 
-    )
+            )
     }
-    Canvas(modifier = Modifier.size(width = 1000.dp, height = 60.dp).offset(y = 61.dp))
+    Canvas(
+        modifier = Modifier
+            .size(width = 1000.dp, height = 60.dp)
+            .offset(y = 61.dp)
+    )
     {
         drawArc(
             color = Morado100,
@@ -269,7 +278,49 @@ fun CustomArc() {
 }
 
 
+@Composable
+fun MenuSample(expanded: Boolean, onDismiss: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentSize(Alignment.TopStart)
+    ) {
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { onDismiss() }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Edit") },
+                onClick = { /* Handle edit! */ },
+                leadingIcon = {
+                    Icon(
+                        Icons.Outlined.Edit,
+                        contentDescription = null
+                    )
+                })
+            DropdownMenuItem(
+                text = { Text("Settings") },
+                onClick = { /* Handle settings! */ },
+                leadingIcon = {
+                    Icon(
+                        Icons.Outlined.Settings,
+                        contentDescription = null
+                    )
+                })
 
+            DropdownMenuItem(
+                text = { Text("Send Feedback") },
+                onClick = { /* Handle send feedback! */ },
+                leadingIcon = {
+                    Icon(
+                        Icons.Outlined.Email,
+                        contentDescription = null
+                    )
+                },
+                trailingIcon = { Text("F11", textAlign = TextAlign.Center) })
+        }
+    }
+}
 
 
 @Preview(showBackground = true)
@@ -278,6 +329,7 @@ fun DefaultPreview() {
     MaterialTheme {
         // CustomArc()
         CotelTopBar()
+
 
     }
 }
