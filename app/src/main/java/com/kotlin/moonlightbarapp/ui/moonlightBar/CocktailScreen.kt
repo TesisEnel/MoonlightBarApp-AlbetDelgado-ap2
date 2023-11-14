@@ -22,8 +22,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -68,7 +71,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kotlin.moonlightbarapp.R
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -83,6 +88,7 @@ import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.kotlin.moonlightbarapp.ui.theme.Morado83
 import com.kotlin.moonlightbarapp.ui.theme.Morado90
+import kotlinx.coroutines.flow.filter
 
 
 data class Coctel(val name: String)
@@ -405,3 +411,5 @@ fun DefaultPreview() {
 
     }
 }
+
+
