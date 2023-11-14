@@ -1,4 +1,4 @@
-package com.kotlin.moonlightbarapp.ui.componentes
+package com.kotlin.moonlightbarapp.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

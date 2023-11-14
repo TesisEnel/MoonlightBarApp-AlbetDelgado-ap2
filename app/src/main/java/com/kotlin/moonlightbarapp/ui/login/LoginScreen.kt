@@ -40,8 +40,6 @@ fun LoginScreen(){
     Box(
         modifier = Modifier.fillMaxSize()
             .background(color = Morado40)
-
-
     ){
         Image(
             painter = painterResource(id = R.drawable.logoblanco),
@@ -52,7 +50,7 @@ fun LoginScreen(){
         Box(
             modifier = Modifier.fillMaxSize()
                 .padding(3.dp),
-            contentAlignment = Alignment.BottomCenter
+            contentAlignment = Alignment.BottomCenter,
         ){
             Surface(
                 modifier = Modifier
