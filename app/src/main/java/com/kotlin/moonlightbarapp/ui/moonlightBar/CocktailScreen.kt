@@ -254,7 +254,7 @@ fun CocktailTopBar() {
                         onClick = { /* do something */ },
                         modifier = Modifier
                             .align(Alignment.Start)
-                            .padding(start = 300.dp, top = 16.dp)
+                            .padding(start = 301.dp, top = 16.dp)
                     ) {
                         Icon(Icons.Filled.Shuffle, "Localized description")
                     }
