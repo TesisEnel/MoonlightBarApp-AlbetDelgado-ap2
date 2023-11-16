@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,13 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kotlin.moonlightbarapp.R
-import com.kotlin.moonlightbarapp.ui.theme.DeepViolett20
-import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
-import com.kotlin.moonlightbarapp.ui.theme.DeepViolett90
-import com.kotlin.moonlightbarapp.ui.theme.Gris30
-import com.kotlin.moonlightbarapp.ui.theme.Gris40
-import com.kotlin.moonlightbarapp.ui.theme.Gris_Morado10
-import com.kotlin.moonlightbarapp.ui.theme.Morado15
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.theme.Morado90
 
@@ -38,6 +30,7 @@ import com.kotlin.moonlightbarapp.ui.theme.Morado90
 @Composable
 fun LoginScreen(){
     Box(
+        contentAlignment = Alignment.TopCenter,
         modifier = Modifier.fillMaxSize()
             .background(color = Morado40)
     ){

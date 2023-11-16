@@ -16,10 +16,8 @@ import androidx.compose.ui.unit.dp
 fun CopaLiquido() {
     var progress by remember { mutableStateOf(0f) }
 
-    // Configuración de la animación
     val transition = updateTransition(targetState = progress, label = "progress")
 
-    // Escala para simular el llenado de líquido
     val scale by transition.animateFloat(
         transitionSpec = { tween(durationMillis = 1000, easing = FastOutSlowInEasing) },
         label = "scale"

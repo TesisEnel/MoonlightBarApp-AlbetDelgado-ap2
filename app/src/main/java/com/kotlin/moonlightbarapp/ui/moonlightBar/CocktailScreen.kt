@@ -4,35 +4,24 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Bedtime
+import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
@@ -40,7 +29,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Card
@@ -58,37 +46,32 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.kotlin.moonlightbarapp.R
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kotlin.moonlightbarapp.R
 import com.kotlin.moonlightbarapp.ui.components.MyTextField
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.kotlin.moonlightbarapp.ui.theme.Morado83
-import com.kotlin.moonlightbarapp.ui.theme.Morado90
-import kotlinx.coroutines.flow.filter
 
 
 data class Coctel(val name: String)
@@ -99,8 +82,7 @@ val cocktails = listOf(
     Coctel("Cleren"),
     Coctel("Ani"),
     Coctel("Agua"),
-    Coctel("Agua"),
-
+    Coctel("Whiskey"),
     )
 
 
@@ -131,20 +113,21 @@ fun CocktailCard(cocktail: Coctel) {
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.coctel1),
-                        contentDescription = "probando",
+                        contentDescription = "Prueba de cocktail",
                         modifier = Modifier.size(60.dp)
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+
                     Text(
                         text = cocktail.name,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Left,
+                        modifier = Modifier.padding(top = 16.dp)
 
                     )
                 }
             }
 
-            BotonFavorito(
+            FavoriteButton(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
             )
@@ -153,7 +136,7 @@ fun CocktailCard(cocktail: Coctel) {
 }
 
 @Composable
-fun BotonFavorito(modifier: Modifier = Modifier) {
+fun FavoriteButton(modifier: Modifier = Modifier) {
     var checked by remember { mutableStateOf(false) }
     IconToggleButton(
         checked = checked,
@@ -193,7 +176,7 @@ fun CocktailGrid(cocktails: List<Coctel>) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CotelTopBar() {
+fun CocktailTopBar() {
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -238,8 +221,6 @@ fun CotelTopBar() {
                         Icon(
                             imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",
-
-
                             )
                     }
                 }
@@ -271,7 +252,9 @@ fun CotelTopBar() {
 
                     FloatingActionButton(
                         onClick = { /* do something */ },
-                        modifier = Modifier.align(Alignment.End)
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(start = 300.dp, top = 16.dp)
                     ) {
                         Icon(Icons.Filled.Shuffle, "Localized description")
                     }
@@ -289,14 +272,6 @@ fun CotelTopBar() {
 
 }
 
-@Composable
-fun FloatingActionButtonSample() {
-    FloatingActionButton(
-        onClick = { /* do something */ },
-    ) {
-        Icon(Icons.Filled.Add, "Localized description")
-    }
-}
 
 @Composable
 fun CustomArc() {
@@ -321,8 +296,6 @@ fun CustomArc() {
             useCenter = false,
             topLeft = Offset.Zero,
             size = this.size,
-            //style = Stroke(150f)
-
         )
     }
 }
@@ -378,8 +351,9 @@ fun PieDePagina() {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Moon Bar", "Categoria", "Favoritos")
     val icons = listOf(
-        Icons.Filled.Bedtime,
-        Icons.Filled.Home, Icons.Filled.Favorite
+        Icons.Filled.Home,
+        Icons.Filled.Category,
+        Icons.Filled.Favorite
     )
 
     NavigationBar {
@@ -406,9 +380,7 @@ fun PieDePagina() {
 fun DefaultPreview() {
     MaterialTheme {
         // CustomArc()
-        CotelTopBar()
-
-
+        CocktailTopBar()
     }
 }
 
