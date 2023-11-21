@@ -26,7 +26,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kotlin.moonlightbarapp.R
@@ -45,9 +47,9 @@ fun IngredientsList(ingredients: List<Pair<String, Int>>) {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(150.dp)
                 .background(color = Morado40)
-                .padding(8.dp)
+                .padding(2.dp)
         ) {
             items(ingredients) { (name, imageRes) ->
                 IngredientCard(name = name, imageRes = imageRes)
@@ -67,16 +69,17 @@ fun IngredientsList(ingredients: List<Pair<String, Int>>) {
 fun IngredientCard(name: String, imageRes: Int) {
     Column(
         modifier = Modifier
-            .width(80.dp)  // Ajusta este valor
-            .padding(8.dp)
+            .width(85.dp)  // Ajusta este valor
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
-                .width(80.dp)  // Ajusta este valor
-                .height(80.dp)  // Ajusta este valor
+                .width(70.dp)  // Ajusta este valor
+                .height(70.dp)  // Ajusta este valor
                 .clip(CircleShape)
-                .background(Color.White)
-
+                .background(Color.White),
+            contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = imageRes),
@@ -88,28 +91,18 @@ fun IngredientCard(name: String, imageRes: Int) {
                     .width(60.dp)   // Ajusta este valor
             )
         }
-    }
-    Spacer(modifier = Modifier.height(50.dp))
-
-    // Columna para el nombre del ingrediente
-    Box(
-        contentAlignment = Alignment.CenterEnd
-        ,
-        modifier = Modifier
-            .fillMaxWidth()
-
-    ) {
         Text(
             text = name,
-            color = Color.Black,
+            color = Color.White,
+            fontFamily= FontFamily.Serif,
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(8.dp)
+            maxLines=4,
+            overflow = TextOverflow.Visible,  // Permite que el texto se extienda más allá de su caja contenedora
+            modifier = Modifier.fillMaxWidth()
+
         )
     }
 }
-
-
 
 
 
