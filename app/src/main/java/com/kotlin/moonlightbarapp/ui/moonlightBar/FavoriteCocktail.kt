@@ -89,10 +89,7 @@ fun FavoriteCocktail() {
                 }
             )
         },
-        bottomBar =
-        {
-            PieDePagina()
-        },
+
         content = { innerPadding ->
             Column(
                 modifier = Modifier

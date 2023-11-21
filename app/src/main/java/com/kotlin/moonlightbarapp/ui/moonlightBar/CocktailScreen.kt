@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -23,18 +22,12 @@ import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shuffle
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -57,7 +50,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -67,8 +59,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.R
 import com.kotlin.moonlightbarapp.ui.components.MyTextField
+import com.kotlin.moonlightbarapp.ui.navigation.Destination
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.theme.Morado83
@@ -83,7 +77,7 @@ val cocktails = listOf(
     Coctel("Ani"),
     Coctel("Agua"),
     Coctel("Whiskey"),
-    )
+)
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -144,15 +138,17 @@ fun FavoriteButton(modifier: Modifier = Modifier) {
         modifier = modifier
     ) {
         if (checked) {
-            Icon(Icons.Filled.Favorite, contentDescription = "Localized description",
-                 )
+            Icon(
+                Icons.Filled.Favorite, contentDescription = "Localized description",
+            )
         } else {
-            Icon(Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
-                tint = Morado83)
+            Icon(
+                Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
+                tint = Morado83
+            )
         }
     }
 }
-
 
 
 @Composable
@@ -177,8 +173,6 @@ fun CocktailGrid(cocktails: List<Coctel>) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CocktailTopBar() {
-    var expanded by remember { mutableStateOf(false) }
-
     Scaffold(
 
         topBar = {
@@ -208,28 +202,18 @@ fun CocktailTopBar() {
 
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = { expanded = true }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Localized description",
-                        )
-                    }
-                },
+
                 actions = {
                     IconButton(onClick = { /* doSomething() */ }) {
                         Icon(
                             imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",
-                            )
+                        )
                     }
                 }
             )
         },
-        bottomBar =
-        {
-            PieDePagina()
-        },
+
         content = { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
                 CustomArc()
@@ -261,7 +245,6 @@ fun CocktailTopBar() {
 
 
                 }
-                MenuSample(expanded = expanded, onDismiss = { expanded = false })
 
             }
 
@@ -302,52 +285,7 @@ fun CustomArc() {
 
 
 @Composable
-fun MenuSample(expanded: Boolean, onDismiss: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.TopStart)
-    ) {
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { onDismiss() }
-        ) {
-            DropdownMenuItem(
-                text = { Text("Edit") },
-                onClick = { /* Handle edit! */ },
-                leadingIcon = {
-                    Icon(
-                        Icons.Outlined.Edit,
-                        contentDescription = null
-                    )
-                })
-            DropdownMenuItem(
-                text = { Text("Settings") },
-                onClick = { /* Handle settings! */ },
-                leadingIcon = {
-                    Icon(
-                        Icons.Outlined.Settings,
-                        contentDescription = null
-                    )
-                })
-
-            DropdownMenuItem(
-                text = { Text("Send Feedback") },
-                onClick = { /* Handle send feedback! */ },
-                leadingIcon = {
-                    Icon(
-                        Icons.Outlined.Email,
-                        contentDescription = null
-                    )
-                },
-                trailingIcon = { Text("F11", textAlign = TextAlign.Center) })
-        }
-    }
-}
-
-
-@Composable
-fun PieDePagina() {
+fun PieDePagina(navController: NavController) {
     var selectedItem by remember { mutableStateOf(0) }
     val items = listOf("Moon Bar", "Categoria", "Favoritos")
     val icons = listOf(
@@ -360,20 +298,25 @@ fun PieDePagina() {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = {
-                    when (val icon = icons[index]) {
-                        is ImageVector -> Icon(icon, contentDescription = item)
-                    }
+                    Icon(
+                        imageVector = icons[index],
+                        contentDescription = item
+                    )
                 },
                 label = { Text(item) },
                 selected = selectedItem == index,
-                onClick = { selectedItem = index }
+                onClick = {
+                    selectedItem = index
+                    when (index) {
+                        0 -> navController.navigate(Destination.MoonBar.route)
+                        1 -> navController.navigate(Destination.Categoria.route)
+                        2 -> navController.navigate(Destination.Favoritos.route)
+                    }
+                }
             )
         }
     }
-
 }
-
-
 
 @Preview(showBackground = true)
 @Composable
