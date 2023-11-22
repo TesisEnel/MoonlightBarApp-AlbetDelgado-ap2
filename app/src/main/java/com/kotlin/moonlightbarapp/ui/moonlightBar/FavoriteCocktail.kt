@@ -77,7 +77,6 @@ fun FavoriteCocktail(viewModel: DrinkViewModel) {
                             fontWeight = FontWeight.Bold,
                             shadow = Shadow(Color.Yellow),
                             textAlign = TextAlign.Center,
-
                             ),
                         modifier = Modifier.fillMaxWidth()
 
@@ -164,7 +163,6 @@ fun CocktailFavoriteCard(cocktail: DrinkDto) {
                         style = MaterialTheme.typography.titleLarge,
                         textAlign = TextAlign.Left,
                         modifier = Modifier.padding(bottom = 24.dp)
-
                     )
                 }
             }

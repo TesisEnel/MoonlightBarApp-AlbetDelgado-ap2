@@ -34,11 +34,11 @@ class DrinkViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-                    _uiState.update { it.copy(drinks = result.data ?: emptyList()) }
+                    _uiState.update { it.copy(drinks = result.data ?: emptyList(), isLoading = false) }
                 }
 
                 is Resource.Error -> {
-                    _uiState.update { it.copy(error = result.message ?: "Error desconocido") }
+                    _uiState.update { it.copy(error = result.message ?: "Error desconocido", isLoading = false) }
                 }
             }
         }.launchIn(viewModelScope)

@@ -1,15 +1,11 @@
 package com.kotlin.moonlightbarapp.ui.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -18,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kotlin.moonlightbarapp.ui.theme.Morado30
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
@@ -33,6 +28,7 @@ fun MyTextField(
     iconoIzquierdo:( @Composable () -> Unit)?=null,
     iconoDerecho:( @Composable () -> Unit)?=null,
     modificador: Modifier = Modifier,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 
 
     ) {
@@ -40,7 +36,7 @@ fun MyTextField(
     TextField(
         value = valor,
         onValueChange = alCambiarValor,
-
+        keyboardActions = keyboardActions,
         placeholder = if (textoQueDesaparece != null) {
             {
                 Text(
@@ -60,7 +56,6 @@ fun MyTextField(
                     text = textoQueSube
                 )
             }
-
         } else {
             {}
         },
@@ -81,42 +76,14 @@ fun MyTextField(
             unfocusedLeadingIconColor = Morado40,
             unfocusedTrailingIconColor = Morado40,
             placeholderColor = Morado30,
-
-
             ),
-
         modifier = modificador
             .padding(4.dp)
             .wrapContentHeight(
                 Alignment.CenterVertically
             )
             .fillMaxWidth(),
-
         leadingIcon = iconoIzquierdo,
         trailingIcon = iconoDerecho
-
-
     )
-
-
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun ver() {
-    Column {
-        MyTextField(iconoIzquierdo =
-        { Icon(
-            imageVector = Icons.Default.Search,
-            contentDescription = null
-        )},
-            valor =  "",
-            textoQueDesaparece = "Buscar coctel",
-            alCambiarValor ={},
-            iconoDerecho ={
-                Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
-            }
-            )
-    }
-
 }

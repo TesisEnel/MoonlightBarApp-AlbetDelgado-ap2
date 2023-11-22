@@ -6,5 +6,5 @@ data class DrinkListState(
     val isLoading: Boolean = false,
     val drinks: List<DrinkDto> = emptyList(),
     val error: String = "",
-    //val drink: DrinkDto? = null,
+    val drink: DrinkDto? = null,
 )

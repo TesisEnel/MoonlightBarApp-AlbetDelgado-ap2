@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -30,13 +29,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -45,17 +44,41 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.kotlin.moonlightbarapp.R
-import com.kotlin.moonlightbarapp.ui.navigation.Destination
+import coil.compose.rememberAsyncImagePainter
+import com.kotlin.moonlightbarapp.ui.components.AddImage
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
+import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
+import com.kotlin.moonlightbarapp.util.Destination
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChosenCocktail(navController: NavController) {
+fun ChosenCocktail(viewModel: DrinkViewModel, navController: NavController ) {
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val ingredientsWithImages = listOfNotNull(
+        uiState.drink?.strIngredient1?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient2?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient3?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient4?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient5?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient6?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient7?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient8?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient9?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient10?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient11?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient12?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient13?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient14?.let { it to getIngredientImageUrl(it) },
+        uiState.drink?.strIngredient15?.let { it to getIngredientImageUrl(it) },
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -80,7 +103,6 @@ fun ChosenCocktail(navController: NavController) {
 
                             ),
                         modifier = Modifier.fillMaxWidth()
-
                     )
                 },
                 navigationIcon = {
@@ -92,7 +114,7 @@ fun ChosenCocktail(navController: NavController) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",
@@ -110,24 +132,22 @@ fun ChosenCocktail(navController: NavController) {
         contentAlignment = Alignment.TopCenter
 
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.coctel1),
-            contentDescription = "Login Image",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(100.dp)
-
-        )
+        uiState.drink?.strDrinkThumb?.let {
+            AddImage(
+                url = it,
+                description = "Image"
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(95.dp),
             contentAlignment = Alignment.BottomCenter,
         ) {
-            IngredientsList(ingredients = ingredients)
+
+            IngredientsList(ingredients = ingredientsWithImages)
         }
         Spacer(modifier = Modifier.height(10.dp))
-
 
         Box(
             modifier = Modifier
@@ -147,9 +167,7 @@ fun ChosenCocktail(navController: NavController) {
                     topEndPercent = 10
                 )
             )
-
             {
-
                 Text(modifier = Modifier
                     .height(5.dp)
                     .padding(top = 20.dp)
@@ -160,37 +178,25 @@ fun ChosenCocktail(navController: NavController) {
                         fontSize = 16.sp
                     ),
                     text = "Instrucciones:")
-                Text(
-                    modifier = Modifier
-                        .height(5.dp)
-                        .padding(top = 40.dp)
-                        .padding(start = 10.dp)
-                        .padding(end = 15.dp),
-                    overflow = TextOverflow.Visible,
-
-                    text = "¡Gelatina embriagadora para tod@s! ¿List@s para empezar? Para iniciar nuestro original cóctel, sigue estos pasos:\n" +
-                            "\n" +
-                            "Disuelve la gelatina en 225 ml de agua hirviendo, remueve hasta que se disuelva por completo.\n" +
-                            "Luego, espera hasta que la mezcla alcance temperatura ambiente (casi fría), agrega el vodka y el agua restante (los otros 225 ml), remueve muy bien.\n" +
-                            "En este punto tú eliges cómo servirlo, aquí tiene dos opciones: rellena las fresas enteras con la gelatina embriagante o rellena los vasos pequeños de cóctel con la mezcla de gelatina de fresa y vodka.\n" +
-                            "Lleva los cócteles a la nevera durante 3 horas y…, ¡hora de brindar!" +
-                            "¡Manos a la obra! Alista todo lo necesario para comenzar este delicioso, original y refrescante cóctel.\n" +
-                            "\n" +
-                            "Primero prepara la sandía, pues te servirá de recipiente. Corta uno de los extremos pero sin excederte, así servirá de base, luego corta el otro extremo, lo suficiente para verter luego los ingredientes dentro de el.\n" +
-                            "Retira una pequeña parte de la pulpa y reserva, el resto déjalo dentro de la sandía y tritúralo con una batidora manual (hazlo con cuidado para no dañar la cascara de la fruta).\n" +
-                            "Cuando el centro de la sandía sea zumo, es el momento de agregar el resto de los ingredientes, uno a uno. Recuerda, puedes cambiar las cantidades de cada ingrediente al gusto y… ¡a disfrutar!\n" +
-                            "¿Prefieres los detalles y el paso a paso? ¡No te pierdas el vídeo!\n" +
-                            "\n" +
-                            "Consejo: Recuerda manipular con mucho cuidado la sandía, porque se convertirá en tú vaso de cóctel"
-                )
-
+                uiState.drink?.strInstructions?.let {
+                    Text(
+                        modifier = Modifier
+                            .height(5.dp)
+                            .padding(top = 40.dp)
+                            .padding(start = 10.dp)
+                            .padding(end = 15.dp),
+                        overflow = TextOverflow.Visible,
+                        text = it
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun IngredientsList(ingredients: List<Pair<String, Int>>) {
+fun IngredientsList(ingredients: List<Pair<String, String>>) {
+
     val scrollState = rememberLazyListState()
     val progress = scrollState.firstVisibleItemIndex.toFloat() / (ingredients.size - 1)
 
@@ -206,8 +212,8 @@ fun IngredientsList(ingredients: List<Pair<String, Int>>) {
                 .background(color = Morado40)
                 .padding(2.dp)
         ) {
-            items(ingredients) { (name, imageRes) ->
-                IngredientCard(name = name, imageRes = imageRes)
+            items(ingredients) { (name, url) ->
+                IngredientCard(name = name, imageUrl = url)
             }
         }
         Spacer(modifier = Modifier.height(30.dp))
@@ -216,7 +222,7 @@ fun IngredientsList(ingredients: List<Pair<String, Int>>) {
 }
 
 @Composable
-fun IngredientCard(name: String, imageRes: Int) {
+fun IngredientCard(name: String, imageUrl: String) {
     Column(
         modifier = Modifier
             .width(85.dp)
@@ -231,7 +237,7 @@ fun IngredientCard(name: String, imageRes: Int) {
                 .background(Color.White),
         ) {
             Image(
-                painter = painterResource(id = imageRes),
+                painter = rememberAsyncImagePainter(model = imageUrl),
                 contentDescription = null,
                 contentScale = ContentScale.FillHeight,
                 alignment = Alignment.Center,
@@ -248,15 +254,11 @@ fun IngredientCard(name: String, imageRes: Int) {
             maxLines = 4,
             overflow = TextOverflow.Visible,
             modifier = Modifier.fillMaxWidth()
-
         )
     }
 }
 
-var ingredients = listOf(
-    Pair("Ingrediente 1", R.drawable.licor),
-    Pair("Ingrediente 2", R.drawable.licor__1_),
-    Pair("Ingrediente 3", R.drawable.licor__2_),
-    Pair("Ingrediente 4", R.drawable.licor__3_),
-    Pair("Ingrediente 5", R.drawable.licor)
-)
+fun getIngredientImageUrl(ingredientName: String?): String{
+    return "https://www.thecocktaildb.com/images/ingredients/${ingredientName}-Small.png"
+}
+

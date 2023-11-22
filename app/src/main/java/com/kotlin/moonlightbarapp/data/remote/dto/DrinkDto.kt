@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 
 data class DrinkDto(
     @Json(name = "idDrink")
-    val idDrink: String?,
+    val idDrink: String = "",
     val strDrink: String = "",
     val strDrinkAlternate: String? = null,
     val strTags: String? = null,

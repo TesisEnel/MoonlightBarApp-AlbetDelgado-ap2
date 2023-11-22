@@ -3,12 +3,12 @@ package com.kotlin.moonlightbarapp.ui.moonlightBar
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,8 +16,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -27,18 +27,16 @@ import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -46,33 +44,29 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddImage
 import com.kotlin.moonlightbarapp.ui.components.MyTextField
-import com.kotlin.moonlightbarapp.ui.navigation.Destination
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.theme.Morado83
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
-
+import com.kotlin.moonlightbarapp.util.Destination
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CocktailCard(cocktail: DrinkDto, navController: NavController) {
+
     Card(
         onClick = { navController.navigate(Destination.ChosenCocktail.route) },
         shape = RoundedCornerShape(10.dp),
@@ -95,12 +89,10 @@ fun CocktailCard(cocktail: DrinkDto, navController: NavController) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
                     AddImage(
                         url = cocktail.strDrinkThumb,
                         description = "Imagen"
                     )
-
                     Text(
                         text = cocktail.strDrink,
                         style = MaterialTheme.typography.titleMedium,
@@ -109,7 +101,6 @@ fun CocktailCard(cocktail: DrinkDto, navController: NavController) {
                     )
                 }
             }
-
             FavoriteButton(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -158,70 +149,50 @@ fun CocktailGrid(cocktails: List<DrinkDto>, navController: NavController) {
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var textFieldValue by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = Morado40,
-                    titleContentColor = Morado100,
-                    navigationIconContentColor = Morado100,
-                    actionIconContentColor = Morado100
-                ),
-                title = {
-                    Text(
-                        "Moonlight Bar",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                        style = TextStyle(
-                            fontSize = 25.sp,
-                            fontFamily = FontFamily.Cursive,
-                            fontWeight = FontWeight.Bold,
-                            shadow = Shadow(Color.Yellow),
-                            textAlign = TextAlign.Center,
-
-                            ),
-                        modifier = Modifier.fillMaxWidth()
-
-
-                    )
-                },
-
-                actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Bedtime,
-                            contentDescription = "Localized description",
-                        )
-                    }
-                }
-            )
-        },
-
+        topBar = { /* ... */ },
         content = { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
                 CustomArc()
                 Column {
                     MyTextField(
                         modificador = Modifier.offset(y = (-5).dp),
-                        valor = "",
-                        alCambiarValor = {},
+                        valor = textFieldValue,
+                        alCambiarValor = { newValue -> textFieldValue = newValue },
                         iconoDerecho = {
                             Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
                         },
                         iconoIzquierdo = {
                             Icon(imageVector = Icons.Default.Search, contentDescription = null)
                         },
-                        textoQueDesaparece = "Buscar Coctel"
+                        textoQueDesaparece = "Buscar Coctel",
+                        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
                     )
 
-                    CocktailGrid(uiState.drinks.take(6),navController)
+                    if (uiState.isLoading) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.White)
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .align(Alignment.Center),
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    } else {
+                        CocktailGrid(uiState.drinks.take(6), navController)
+                    }
 
                     FloatingActionButton(
                         onClick = { viewModel.loadScreen() },
@@ -236,7 +207,6 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
         }
     )
 }
-
 
 @Composable
 fun CustomArc() {
@@ -264,9 +234,9 @@ fun CustomArc() {
     }
 }
 
-
 @Composable
 fun PieDePagina(navController: NavController) {
+
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Moon Bar", "Categoria", "Favoritos")
     val icons = listOf(
