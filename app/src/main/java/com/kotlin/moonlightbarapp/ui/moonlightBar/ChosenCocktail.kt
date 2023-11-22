@@ -43,19 +43,19 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.R
+import com.kotlin.moonlightbarapp.ui.navigation.Destination
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun ChosenCocktail() {
+fun ChosenCocktail(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -84,7 +84,7 @@ fun ChosenCocktail() {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = {navController.navigate(Destination.MoonBar.route)}) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Localized description",
@@ -198,7 +198,6 @@ fun IngredientsList(ingredients: List<Pair<String, Int>>) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // Scroll horizontal de ingredientes
         LazyRow(
             state = scrollState,
             modifier = Modifier
@@ -212,7 +211,6 @@ fun IngredientsList(ingredients: List<Pair<String, Int>>) {
             }
         }
         Spacer(modifier = Modifier.height(30.dp))
-        // Barra de progreso
         LinearProgressIndicator(progress = progress, modifier = Modifier.fillMaxWidth())
     }
 }
@@ -231,7 +229,6 @@ fun IngredientCard(name: String, imageRes: Int) {
                 .height(50.dp)
                 .clip(CircleShape)
                 .background(Color.White),
-            //contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = imageRes),
@@ -249,13 +246,12 @@ fun IngredientCard(name: String, imageRes: Int) {
             fontFamily = FontFamily.Serif,
             textAlign = TextAlign.Center,
             maxLines = 4,
-            overflow = TextOverflow.Visible,  // Permite que el texto se extienda más allá de su caja contenedora
+            overflow = TextOverflow.Visible,
             modifier = Modifier.fillMaxWidth()
 
         )
     }
 }
-
 
 var ingredients = listOf(
     Pair("Ingrediente 1", R.drawable.licor),

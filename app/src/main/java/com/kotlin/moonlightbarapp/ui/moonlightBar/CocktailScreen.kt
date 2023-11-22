@@ -3,13 +3,10 @@ package com.kotlin.moonlightbarapp.ui.moonlightBar
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -18,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
@@ -45,12 +41,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
@@ -63,8 +59,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
+import com.kotlin.moonlightbarapp.ui.components.AddImage
 import com.kotlin.moonlightbarapp.ui.components.MyTextField
 import com.kotlin.moonlightbarapp.ui.navigation.Destination
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
@@ -76,9 +72,9 @@ import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailCard(cocktail: DrinkDto) {
+fun CocktailCard(cocktail: DrinkDto, navController: NavController) {
     Card(
-        onClick = { /* Do something */ },
+        onClick = { navController.navigate(Destination.ChosenCocktail.route) },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.elevatedCardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -102,7 +98,7 @@ fun CocktailCard(cocktail: DrinkDto) {
 
                     AddImage(
                         url = cocktail.strDrinkThumb,
-                        descripcion = "Imagen del cocktail"
+                        description = "Imagen"
                     )
 
                     Text(
@@ -145,7 +141,7 @@ fun FavoriteButton(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun CocktailGrid(cocktails: List<DrinkDto>) {
+fun CocktailGrid(cocktails: List<DrinkDto>, navController: NavController) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -154,7 +150,7 @@ fun CocktailGrid(cocktails: List<DrinkDto>) {
 
     ) {
         items(cocktails) { cocktail ->
-            CocktailCard(cocktail)
+            CocktailCard(cocktail,navController )
         }
     }
 
@@ -164,7 +160,7 @@ fun CocktailGrid(cocktails: List<DrinkDto>) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailTopBar(viewModel: DrinkViewModel) {
+fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -223,10 +219,9 @@ fun CocktailTopBar(viewModel: DrinkViewModel) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = null)
                         },
                         textoQueDesaparece = "Buscar Coctel"
-
                     )
 
-                    CocktailGrid(uiState.drinks.take(6))
+                    CocktailGrid(uiState.drinks.take(6),navController)
 
                     FloatingActionButton(
                         onClick = { viewModel.loadScreen() },
@@ -250,7 +245,6 @@ fun CustomArc() {
         drawRect(
             color = Morado40,
             topLeft = Offset.Zero,
-
             )
     }
     Canvas(
@@ -273,7 +267,7 @@ fun CustomArc() {
 
 @Composable
 fun PieDePagina(navController: NavController) {
-    var selectedItem by remember { mutableStateOf(0) }
+    var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Moon Bar", "Categoria", "Favoritos")
     val icons = listOf(
         Icons.Filled.Home,
@@ -305,25 +299,5 @@ fun PieDePagina(navController: NavController) {
     }
 }
 
-@Composable
-fun AddImage(
-    url: String,
-    modifier: Modifier = Modifier,
-    descripcion: String,
-) {
-    val painter = rememberAsyncImagePainter(model = url)
-    Image(
-        painter = painter,
-        contentDescription = descripcion,
-        modifier = modifier
-            .border(
-                width = 5.dp,
-                color = MaterialTheme.colorScheme.secondary,
-                shape = CircleShape
-            )
-            .clip(CircleShape)
-            .aspectRatio(1f, true)
-    )
-}
 
 
