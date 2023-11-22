@@ -7,6 +7,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kotlin.moonlightbarapp.ui.moonlightBar.CocktailTopBar
 import com.kotlin.moonlightbarapp.ui.moonlightBar.FavoriteCocktail
 import com.kotlin.moonlightbarapp.ui.moonlightBar.PieDePagina
-
+import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,13 +38,16 @@ fun AppScreen() {
 fun AppNavigation(navController: NavHostController) {
     NavHost(navController, startDestination = Destination.MoonBar.route) {
         composable(Destination.MoonBar.route) {
-            CocktailTopBar()
+            val viewModel: DrinkViewModel = hiltViewModel()
+            CocktailTopBar(viewModel)
         }
-        composable(Destination.Categoria.route) {
-            CocktailTopBar()
-        }
+//        composable(Destination.Categoria.route) {
+//            val viewModel: DrinkViewModel = hiltViewModel()
+//            CocktailTopBar(viewModel)
+//        }
         composable(Destination.Favoritos.route) {
-            FavoriteCocktail()
+            val viewModel: DrinkViewModel = hiltViewModel()
+            FavoriteCocktail(viewModel)
         }
     }
 }

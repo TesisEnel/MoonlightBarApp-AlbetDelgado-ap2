@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,19 +39,22 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kotlin.moonlightbarapp.R
+import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
+import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 
 
-@Preview
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteCocktail() {
+fun FavoriteCocktail(viewModel: DrinkViewModel) {
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -102,14 +106,14 @@ fun FavoriteCocktail() {
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.padding(top = 16.dp)
                 )
-                CocktailLabel(cocktails)
+                CocktailLabel(uiState.drinks)
             }
         }
     )
 }
 
 @Composable
-fun CocktailLabel(cocktails: List<Coctel>) {
+fun CocktailLabel(cocktails: List<DrinkDto>) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
@@ -126,7 +130,7 @@ fun CocktailLabel(cocktails: List<Coctel>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailFavoriteCard(cocktail: Coctel) {
+fun CocktailFavoriteCard(cocktail: DrinkDto) {
     OutlinedCard(
         onClick = { /* Do something */ },
         shape = RoundedCornerShape(10.dp),
@@ -156,7 +160,7 @@ fun CocktailFavoriteCard(cocktail: Coctel) {
                     )
 
                     Text(
-                        text = cocktail.name,
+                        text = cocktail.strDrink,
                         style = MaterialTheme.typography.titleLarge,
                         textAlign = TextAlign.Left,
                         modifier = Modifier.padding(bottom = 24.dp)
