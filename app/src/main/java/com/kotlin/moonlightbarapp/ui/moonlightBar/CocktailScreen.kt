@@ -20,12 +20,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
-import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shuffle
+import androidx.compose.material.icons.filled.WineBar
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -102,7 +102,7 @@ fun CocktailCard(cocktail: DrinkDto, navController: NavController) {
                 ) {
                     AddImage(
                         url = cocktail.strDrinkThumb,
-                        description = "Imagen"
+                        description = "Image"
                     )
                     Text(
                         text = cocktail.strDrink,
@@ -281,10 +281,10 @@ fun CustomArc() {
 fun PieDePagina(navController: NavController) {
 
     var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Moon Bar", "Categoria", "Favoritos")
+    val items = listOf("Moon Bar", "Populares", "Favoritos")
     val icons = listOf(
         Icons.Filled.Home,
-        Icons.Filled.Category,
+        Icons.Filled.WineBar,
         Icons.Filled.Favorite
     )
 
@@ -303,7 +303,7 @@ fun PieDePagina(navController: NavController) {
                     selectedItem = index
                     when (index) {
                         0 -> navController.navigate(Destination.MoonBar.route)
-                        1 -> navController.navigate(Destination.Categoria.route)
+                        1 -> navController.navigate(Destination.Populares.route)
                         2 -> navController.navigate(Destination.Favoritos.route)
                     }
                 }
