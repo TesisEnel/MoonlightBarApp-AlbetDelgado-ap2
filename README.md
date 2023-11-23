@@ -8,7 +8,7 @@ El proyecto "Moonlight Bar" es una aplicación de cócteles construida en Kotlin
 
 Para empezar a utilizar el proyecto, siga las siguientes instrucciones.
 
-1. Clone el repositorio
+1. Clona el repositorio
 
 ```sh
 git clone https://github.com/rhazerpk/MoonlightBar.git
