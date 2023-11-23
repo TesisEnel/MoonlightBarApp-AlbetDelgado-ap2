@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -31,12 +33,15 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -48,9 +53,15 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
@@ -147,7 +158,6 @@ fun CocktailGrid(cocktails: List<DrinkDto>, navController: NavController) {
 
 }
 
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -158,7 +168,40 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
-        topBar = { /* ... */ },
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = Morado40,
+                    titleContentColor = Morado100,
+                    navigationIconContentColor = Morado100,
+                    actionIconContentColor = Morado100
+                ),
+                title = {
+                    Text(
+                        "Moonlight Bar",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Center,
+                        style = TextStyle(
+                            fontSize = 25.sp,
+                            fontFamily = FontFamily.Cursive,
+                            fontWeight = FontWeight.Bold,
+                            shadow = Shadow(Color.Yellow),
+                            textAlign = TextAlign.Center,
+                            ),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                },
+                actions = {
+                    IconButton(onClick = { navController.navigate(Destination.MoonBar.route) }) {
+                        Icon(
+                            imageVector = Icons.Filled.Bedtime,
+                            contentDescription = "Localized description",
+                        )
+                    }
+                }
+            )
+        },
         content = { innerPadding ->
             Box(modifier = Modifier.padding(innerPadding)) {
                 CustomArc()
