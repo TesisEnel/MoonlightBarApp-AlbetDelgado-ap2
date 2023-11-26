@@ -62,6 +62,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
@@ -74,12 +75,27 @@ import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 import com.kotlin.moonlightbarapp.util.Destination
 
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailCard(cocktail: DrinkDto, navController: NavController) {
+fun CocktailCard(
+    cocktail: DrinkDto,
+    navController: NavController,
+    viewModel: DrinkViewModel = hiltViewModel()
+) {
+
+    val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
+    var favoriteOn by mutableStateOf(false)
+    val currentFavorite = favorites.find {
+        it.strDrink == cocktail.strDrink
+    }
+
+    if(currentFavorite != null){
+        favoriteOn = true
+    }
 
     Card(
-        onClick = { navController.navigate(Destination.ChosenCocktail.route) },
+        onClick = { navController.navigate("${Destination.ChosenCocktail.route}/${cocktail.idDrink}") },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.elevatedCardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -112,38 +128,39 @@ fun CocktailCard(cocktail: DrinkDto, navController: NavController) {
                     )
                 }
             }
-            FavoriteButton(
+            IconToggleButton(
+                checked = favoriteOn,
+                onCheckedChange = { favoriteOn = it },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-            )
+            ) {
+                if (favoriteOn) {
+                    Icon(
+                        Icons.Filled.Favorite, contentDescription = "Localized description",
+                    )
+                    if (favorites.find { it.strDrink == cocktail.strDrink } == null) {
+                        viewModel.save(cocktail)
+                    }
+                } else {
+                    Icon(
+                        Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
+                        tint = Morado83
+                    )
+                    if (currentFavorite != null) {
+                        viewModel.delete(currentFavorite)
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun FavoriteButton(modifier: Modifier = Modifier) {
-    var checked by remember { mutableStateOf(false) }
-    IconToggleButton(
-        checked = checked,
-        onCheckedChange = { checked = it },
-        modifier = modifier
-    ) {
-        if (checked) {
-            Icon(
-                Icons.Filled.Favorite, contentDescription = "Localized description",
-            )
-        } else {
-            Icon(
-                Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
-                tint = Morado83
-            )
-        }
-    }
-}
-
-
-@Composable
-fun CocktailGrid(cocktails: List<DrinkDto>, navController: NavController) {
+fun CocktailGrid(
+    cocktails: List<DrinkDto>,
+    navController: NavController,
+    viewModel: DrinkViewModel = hiltViewModel()
+) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -152,7 +169,7 @@ fun CocktailGrid(cocktails: List<DrinkDto>, navController: NavController) {
 
     ) {
         items(cocktails) { cocktail ->
-            CocktailCard(cocktail,navController )
+            CocktailCard(cocktail,navController,viewModel)
         }
     }
 

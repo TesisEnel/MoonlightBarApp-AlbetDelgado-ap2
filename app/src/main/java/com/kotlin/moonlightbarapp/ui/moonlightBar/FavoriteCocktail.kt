@@ -2,7 +2,6 @@ package com.kotlin.moonlightbarapp.ui.moonlightBar
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,10 +16,15 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
@@ -29,11 +33,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -41,11 +47,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kotlin.moonlightbarapp.R
+import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrinks
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
+import com.kotlin.moonlightbarapp.ui.components.AddImage
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
+import com.kotlin.moonlightbarapp.ui.theme.Morado83
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 
 
@@ -54,7 +63,7 @@ import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 @Composable
 fun FavoriteCocktail(viewModel: DrinkViewModel) {
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -105,19 +114,21 @@ fun FavoriteCocktail(viewModel: DrinkViewModel) {
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.padding(top = 16.dp)
                 )
-                CocktailLabel(uiState.drinks)
+                CocktailLabel(favorites)
             }
         }
     )
 }
 
 @Composable
-fun CocktailLabel(cocktails: List<DrinkDto>) {
+fun CocktailLabel(cocktails: List<FavoriteDrinks>) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
         contentPadding = PaddingValues(2.dp),
-        modifier = Modifier.fillMaxSize().padding(20.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp)
 
     ) {
         items(cocktails) { cocktail ->
@@ -127,9 +138,55 @@ fun CocktailLabel(cocktails: List<DrinkDto>) {
 
 }
 
+@SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailFavoriteCard(cocktail: DrinkDto) {
+fun CocktailFavoriteCard(cocktail: FavoriteDrinks, viewModel: DrinkViewModel = hiltViewModel()) {
+
+    val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var favoriteOn by mutableStateOf(false)
+    var showDialog by remember { mutableStateOf(false) }
+    val currentFavorite = favorites.find {
+        it.strDrink == cocktail.strDrink
+    }
+
+    if (currentFavorite != null) {
+        favoriteOn = true
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showDialog = false
+            },
+            title = { Text(text = "Delete your favorites") },
+            text = { Text("¿Are you sure you want to remove this cocktail from your favorites?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showDialog = false
+                        favoriteOn = false
+                        if (currentFavorite != null) {
+                            viewModel.delete(currentFavorite)
+                        }
+                    }
+                ) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        showDialog = false
+                    }
+                ) {
+                    Text("No")
+                }
+            }
+        )
+    }
+
     OutlinedCard(
         onClick = { /* Do something */ },
         shape = RoundedCornerShape(10.dp),
@@ -152,24 +209,55 @@ fun CocktailFavoriteCard(cocktail: DrinkDto) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.coctel1),
-                        contentDescription = "Prueba de cocktail",
-                        modifier = Modifier.size(100.dp)
+                    AddImage(
+                        url = cocktail.strDrinkThumb,
+                        description = "Image"
                     )
-
                     Text(
                         text = cocktail.strDrink,
                         style = MaterialTheme.typography.titleLarge,
-                        textAlign = TextAlign.Left,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(bottom = 24.dp)
+                    )
+                    Text(
+                        text = cocktail.strGlass,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Justify,
                         modifier = Modifier.padding(bottom = 24.dp)
                     )
                 }
             }
-            FavoriteButton(
+            IconToggleButton(
+                checked = favoriteOn,
+                onCheckedChange = {
+                    if (!it) {
+                        showDialog = true
+                    } else {
+                        favoriteOn = it
+                        if (favorites.find { it.strDrink == cocktail.strDrink } == null) {
+                            var currentCocktail : DrinkDto? = uiState.drinks.find {
+                                it.strDrink == cocktail.strDrink
+                            }
+                            if (currentCocktail != null) {
+                                viewModel.save(currentCocktail)
+                            }
+                        }
+                    }
+                },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-            )
+            ) {
+                if (favoriteOn) {
+                    Icon(
+                        Icons.Filled.Favorite, contentDescription = "Localized description",
+                    )
+                } else {
+                    Icon(
+                        Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
+                        tint = Morado83
+                    )
+                }
+            }
         }
     }
 }

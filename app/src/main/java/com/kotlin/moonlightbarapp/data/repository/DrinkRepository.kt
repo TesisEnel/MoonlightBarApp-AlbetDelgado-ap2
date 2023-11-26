@@ -23,8 +23,13 @@ class DrinkRepository @Inject constructor(
             emit(Resource.Error(e.message ?: "Error HTTP"))
         } catch (e: IOException) {
 
-            emit(Resource.Error(e.message ?: "verificar tu conexion a internet"))
+            emit(Resource.Error(e.message ?: "Verificar tu conexión a internet"))
         }
+    }
+
+    suspend fun getCocktailById(id: String): DrinkDto? {
+        println("El id de repository: ${api.getCocktailById(id)?.idDrink}")
+        return api.getCocktailById(id)
     }
 
 

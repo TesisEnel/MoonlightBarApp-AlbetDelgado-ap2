@@ -23,9 +23,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.kotlin.moonlightbarapp.R
 import com.kotlin.moonlightbarapp.ui.moonlightBar.ChosenCocktail
 import com.kotlin.moonlightbarapp.ui.moonlightBar.CocktailTopBar
@@ -64,7 +66,6 @@ fun AppNavigation(navController: NavHostController) {
 
     LaunchedEffect(key1 = true) {
         delay(2000)
-
         navController.navigate(Destination.MoonBar.route) {
             popUpTo(navController.graph.startDestinationId) {
                 saveState = true
@@ -84,8 +85,11 @@ fun AppNavigation(navController: NavHostController) {
         composable(Destination.Favoritos.route) {
             FavoriteCocktail(viewModel)
         }
-        composable(Destination.ChosenCocktail.route) {
-            ChosenCocktail(viewModel, navController)
+        composable("${Destination.ChosenCocktail.route}/{id}",
+            arguments = listOf(navArgument("id"){type = NavType.IntType})
+        ) { capture ->
+            val id = capture.arguments?.getInt("id") ?: 0
+            ChosenCocktail(id = id.toString(),viewModel, navController)
         }
     }
 }

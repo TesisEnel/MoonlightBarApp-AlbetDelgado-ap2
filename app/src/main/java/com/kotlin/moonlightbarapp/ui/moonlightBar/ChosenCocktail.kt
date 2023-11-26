@@ -29,7 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,7 +44,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.kotlin.moonlightbarapp.ui.components.AddImage
@@ -57,26 +56,32 @@ import com.kotlin.moonlightbarapp.util.Destination
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChosenCocktail(viewModel: DrinkViewModel, navController: NavController ) {
+fun ChosenCocktail(id: String, viewModel: DrinkViewModel, navController: NavController ) {
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    DisposableEffect(Unit) {
+        viewModel.getCocktailById(id)
+        onDispose {
+        }
+    }
+
+    println("El id del screen: ${viewModel.drink.idDrink}")
 
     val ingredientsWithImages = listOfNotNull(
-        uiState.drink?.strIngredient1?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient2?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient3?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient4?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient5?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient6?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient7?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient8?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient9?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient10?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient11?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient12?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient13?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient14?.let { it to getIngredientImageUrl(it) },
-        uiState.drink?.strIngredient15?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient1?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient2?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient3?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient4?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient5?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient6?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient7?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient8?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient9?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient10?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient11?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient12?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient13?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient14?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient15?.let { it to getIngredientImageUrl(it) },
     )
 
     Scaffold(
@@ -100,7 +105,6 @@ fun ChosenCocktail(viewModel: DrinkViewModel, navController: NavController ) {
                             fontWeight = FontWeight.Bold,
                             shadow = Shadow(Color.Yellow),
                             textAlign = TextAlign.Center,
-
                             ),
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -132,12 +136,10 @@ fun ChosenCocktail(viewModel: DrinkViewModel, navController: NavController ) {
         contentAlignment = Alignment.TopCenter
 
     ) {
-        uiState.drink?.strDrinkThumb?.let {
-            AddImage(
-                url = it,
-                description = "Image"
-            )
-        }
+        AddImage(
+            url = viewModel.drink.strDrinkThumb,
+            description = "Image"
+        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -178,17 +180,15 @@ fun ChosenCocktail(viewModel: DrinkViewModel, navController: NavController ) {
                         fontSize = 16.sp
                     ),
                     text = "Instrucciones:")
-                uiState.drink?.strInstructions?.let {
-                    Text(
-                        modifier = Modifier
-                            .height(5.dp)
-                            .padding(top = 40.dp)
-                            .padding(start = 10.dp)
-                            .padding(end = 15.dp),
-                        overflow = TextOverflow.Visible,
-                        text = it
-                    )
-                }
+                Text(
+                    modifier = Modifier
+                        .height(5.dp)
+                        .padding(top = 40.dp)
+                        .padding(start = 10.dp)
+                        .padding(end = 15.dp),
+                    overflow = TextOverflow.Visible,
+                    text = viewModel.drink.strInstructions
+                )
             }
         }
     }
