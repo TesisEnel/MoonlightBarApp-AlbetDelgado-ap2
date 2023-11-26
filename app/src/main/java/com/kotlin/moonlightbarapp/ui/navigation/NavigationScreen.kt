@@ -29,10 +29,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.kotlin.moonlightbarapp.R
+import com.kotlin.moonlightbarapp.ui.moonlightBar.CardFooter
 import com.kotlin.moonlightbarapp.ui.moonlightBar.ChosenCocktail
 import com.kotlin.moonlightbarapp.ui.moonlightBar.CocktailTopBar
 import com.kotlin.moonlightbarapp.ui.moonlightBar.FavoriteCocktail
-import com.kotlin.moonlightbarapp.ui.moonlightBar.PieDePagina
 import com.kotlin.moonlightbarapp.ui.moonlightBar.mostPopularCocktails
 import com.kotlin.moonlightbarapp.ui.theme.MoonlightBarAppTheme
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
@@ -49,7 +49,7 @@ fun AppScreen() {
 
     Scaffold(
         bottomBar = {
-            PieDePagina(navController = navController)
+            CardFooter(navController = navController)
         },
         content = { padding ->
             Box(modifier = Modifier.padding(padding)) {

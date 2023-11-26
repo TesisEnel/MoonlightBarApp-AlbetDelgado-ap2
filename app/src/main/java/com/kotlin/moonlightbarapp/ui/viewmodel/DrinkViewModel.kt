@@ -56,6 +56,24 @@ class DrinkViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun loadPopularScreen() {
+        drinkRepository.getPopularCocktail().onEach { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    _uiState.update { it.copy(isLoading = true) }
+                }
+
+                is Resource.Success -> {
+                    _uiState.update { it.copy(drinks = result.data ?: emptyList(), isLoading = false) }
+                }
+
+                is Resource.Error -> {
+                    _uiState.update { it.copy(error = result.message ?: "Error desconocido", isLoading = false) }
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     fun getCocktailById(id: String) {
         viewModelScope.launch {
             drink = drinkRepository.getCocktailById(id)!!
@@ -106,7 +124,6 @@ class DrinkViewModel @Inject constructor(
                 strMeasure13 = cocktail.strMeasure13,
                 strMeasure14 = cocktail.strMeasure14,
                 strMeasure15 = cocktail.strMeasure15,
-                isFavorite = true
             )
             favoriteDrinksRepository.save(drink)
         }

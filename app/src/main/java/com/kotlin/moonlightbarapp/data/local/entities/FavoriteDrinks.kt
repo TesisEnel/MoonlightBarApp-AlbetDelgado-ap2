@@ -48,5 +48,4 @@ data class FavoriteDrinks(
     val strMeasure13: String? = null,
     val strMeasure14: String? = null,
     val strMeasure15: String? = null,
-    val isFavorite: Boolean = false
 )

@@ -9,8 +9,12 @@ interface DrinkApi {
     @GET("/api/json/v2/9973533/randomselection.php")
     suspend fun getRandomCocktails(): drinks
 
+    @GET("/api/json/v2/9973533/popular.php")
+    suspend fun getPopularCocktails(): drinks
+
     @GET("/api/json/v2/9973533/lookup.php")
     suspend fun getCocktailById(@Query("i") idDrink: String) : DrinkDto?
 
-
+    @GET("/api/json/v2/9973533/search.php")
+    suspend fun searchCocktail(@Query("s") cocktailName: String): drinks
 }

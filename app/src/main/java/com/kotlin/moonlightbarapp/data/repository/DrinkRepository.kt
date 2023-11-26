@@ -27,9 +27,29 @@ class DrinkRepository @Inject constructor(
         }
     }
 
+    fun getPopularCocktail(): Flow<Resource<List<DrinkDto>>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val drinks = api.getPopularCocktails()
+
+            emit(Resource.Success(drinks.drinks))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP"))
+        } catch (e: IOException) {
+
+            emit(Resource.Error(e.message ?: "Verificar tu conexión a internet"))
+        }
+    }
+
     suspend fun getCocktailById(id: String): DrinkDto? {
         println("El id de repository: ${api.getCocktailById(id)?.idDrink}")
         return api.getCocktailById(id)
+    }
+
+    suspend fun searchCocktail(cocktailName: String): DrinkDto {
+        val drinks = api.searchCocktail(cocktailName).drinks
+        return drinks.firstOrNull() ?: throw Exception("Cocktail not found")
     }
 
 

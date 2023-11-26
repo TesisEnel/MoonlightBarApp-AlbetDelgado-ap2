@@ -7,7 +7,7 @@ import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrinks
 
 @Database(
     entities = [FavoriteDrinks::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class Database : RoomDatabase(){

@@ -22,10 +22,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocalBar
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shuffle
-import androidx.compose.material.icons.filled.WineBar
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -233,7 +233,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                         iconoIzquierdo = {
                             Icon(imageVector = Icons.Default.Search, contentDescription = null)
                         },
-                        textoQueDesaparece = "Buscar Coctel",
+                        textoQueDesaparece = "Search cocktail",
                         keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
                     )
 
@@ -260,7 +260,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                             .align(Alignment.Start)
                             .padding(start = 301.dp, top = 16.dp)
                     ) {
-                        Icon(Icons.Filled.Shuffle, "Localized description")
+                        Icon(Icons.Filled.Shuffle, "Icon Random")
                     }
                 }
             }
@@ -295,13 +295,13 @@ fun CustomArc() {
 }
 
 @Composable
-fun PieDePagina(navController: NavController) {
+fun CardFooter(navController: NavController) {
 
     var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Moon Bar", "Populares", "Favoritos")
+    val items = listOf("Moon Bar", "Populars", "Favorites")
     val icons = listOf(
         Icons.Filled.Home,
-        Icons.Filled.WineBar,
+        Icons.Filled.LocalBar,
         Icons.Filled.Favorite
     )
 

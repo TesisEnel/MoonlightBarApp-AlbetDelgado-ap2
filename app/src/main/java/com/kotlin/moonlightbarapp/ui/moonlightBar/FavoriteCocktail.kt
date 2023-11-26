@@ -20,13 +20,13 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -56,7 +56,6 @@ import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.theme.Morado83
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
-
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -110,7 +109,7 @@ fun FavoriteCocktail(viewModel: DrinkViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Mis Favoritos",
+                    text = "Favorites cocktails",
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.padding(top = 16.dp)
                 )
@@ -139,9 +138,11 @@ fun CocktailLabel(cocktails: List<FavoriteDrinks>) {
 }
 
 @SuppressLint("UnrememberedMutableState")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailFavoriteCard(cocktail: FavoriteDrinks, viewModel: DrinkViewModel = hiltViewModel()) {
+fun CocktailFavoriteCard(
+    cocktail: FavoriteDrinks,
+    viewModel: DrinkViewModel = hiltViewModel()
+) {
 
     val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -187,8 +188,7 @@ fun CocktailFavoriteCard(cocktail: FavoriteDrinks, viewModel: DrinkViewModel = h
         )
     }
 
-    OutlinedCard(
-        onClick = { /* Do something */ },
+    Card(
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.elevatedCardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -219,12 +219,12 @@ fun CocktailFavoriteCard(cocktail: FavoriteDrinks, viewModel: DrinkViewModel = h
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = 24.dp)
                     )
-                    Text(
-                        text = cocktail.strGlass,
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Justify,
-                        modifier = Modifier.padding(bottom = 24.dp)
-                    )
+//                    Text(
+//                        text = cocktail.strGlass,
+//                        style = MaterialTheme.typography.titleMedium,
+//                        textAlign = TextAlign.Center,
+//                        modifier = Modifier.padding(top = 8.dp)
+//                    )
                 }
             }
             IconToggleButton(
@@ -235,7 +235,7 @@ fun CocktailFavoriteCard(cocktail: FavoriteDrinks, viewModel: DrinkViewModel = h
                     } else {
                         favoriteOn = it
                         if (favorites.find { it.strDrink == cocktail.strDrink } == null) {
-                            var currentCocktail : DrinkDto? = uiState.drinks.find {
+                            val currentCocktail : DrinkDto? = uiState.drinks.find {
                                 it.strDrink == cocktail.strDrink
                             }
                             if (currentCocktail != null) {
