@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrinks
+import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrink
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddImage
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
@@ -122,7 +122,7 @@ fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
 }
 
 @Composable
-fun CocktailLabel(cocktails: List<FavoriteDrinks>, navController: NavController) {
+fun CocktailLabel(cocktails: List<FavoriteDrink>, navController: NavController) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
@@ -143,7 +143,7 @@ fun CocktailLabel(cocktails: List<FavoriteDrinks>, navController: NavController)
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun CocktailFavoriteCard(
-    cocktail: FavoriteDrinks,
+    cocktail: FavoriteDrink,
     navController: NavController,
     viewModel: DrinkViewModel = hiltViewModel()
 ) {

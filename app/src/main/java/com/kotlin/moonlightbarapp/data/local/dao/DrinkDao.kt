@@ -4,25 +4,25 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrinks
+import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrink
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DrinkDao {
     @Upsert
-    suspend fun save(drink: FavoriteDrinks)
+    suspend fun save(drink: FavoriteDrink)
     @Query(
         """
         SELECT * 
-        FROM FavoriteDrinks 
+        FROM FavoriteDrink 
         WHERE idDrink=:id  
         LIMIT 1
         """
     )
-    suspend fun find(id: Int): FavoriteDrinks
+    suspend fun find(id: Int): FavoriteDrink
     @Delete
-    suspend fun delete(drink: FavoriteDrinks)
+    suspend fun delete(drink: FavoriteDrink)
 
-    @Query("SELECT * FROM FavoriteDrinks")
-    fun getAll(): Flow<List<FavoriteDrinks>>
+    @Query("SELECT * FROM FavoriteDrink")
+    fun getAll(): Flow<List<FavoriteDrink>>
 }

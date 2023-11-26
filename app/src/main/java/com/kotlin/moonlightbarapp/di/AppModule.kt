@@ -44,7 +44,7 @@ object AppModule {
         Room.databaseBuilder(
             appContext,
             Database::class.java,
-            "Drink.db")
+            "FavoriteDrink.db")
             .fallbackToDestructiveMigration()
             .build()
     @Provides

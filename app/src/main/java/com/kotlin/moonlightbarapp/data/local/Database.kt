@@ -3,11 +3,11 @@ package com.kotlin.moonlightbarapp.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.kotlin.moonlightbarapp.data.local.dao.DrinkDao
-import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrinks
+import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrink
 
 @Database(
-    entities = [FavoriteDrinks::class],
-    version = 2,
+    entities = [FavoriteDrink::class],
+    version = 3,
     exportSchema = false
 )
 abstract class Database : RoomDatabase(){

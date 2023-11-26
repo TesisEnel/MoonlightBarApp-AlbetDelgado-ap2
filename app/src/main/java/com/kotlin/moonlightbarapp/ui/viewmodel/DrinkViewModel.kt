@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrinks
+import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrink
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.data.repository.DrinkRepository
-import com.kotlin.moonlightbarapp.data.repository.FavoriteDrinksRepository
+import com.kotlin.moonlightbarapp.data.repository.FavoriteDrinkRepository
 import com.kotlin.moonlightbarapp.util.DrinkListState
 import com.kotlin.moonlightbarapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DrinkViewModel @Inject constructor(
     private val drinkRepository: DrinkRepository,
-    private val favoriteDrinksRepository: FavoriteDrinksRepository
+    private val favoriteDrinksRepository: FavoriteDrinkRepository
 ): ViewModel() {
 
     var drink by mutableStateOf(DrinkDto())
@@ -76,13 +76,13 @@ class DrinkViewModel @Inject constructor(
 
     fun getCocktailByName(cocktailName: String) {
         viewModelScope.launch {
-            drink = drinkRepository.searchCocktail(cocktailName)
+            drink = drinkRepository.searchCocktailByName(cocktailName)
         }
     }
 
     fun save(cocktail: DrinkDto){
         viewModelScope.launch {
-            val drink = FavoriteDrinks(
+            val drink = FavoriteDrink(
                 strDrink = cocktail.strDrink,
                 strDrinkAlternate = cocktail.strDrinkAlternate,
                 strTags = cocktail.strTags,
@@ -129,13 +129,13 @@ class DrinkViewModel @Inject constructor(
         }
     }
 
-    fun delete(favoriteDrink: FavoriteDrinks){
+    fun delete(favoriteDrink: FavoriteDrink){
         viewModelScope.launch {
             favoriteDrinksRepository.delete(favoriteDrink)
         }
     }
 
-    val favoriteDrinks: StateFlow<List<FavoriteDrinks>> = favoriteDrinksRepository.getAll().stateIn(
+    val favoriteDrinks: StateFlow<List<FavoriteDrink>> = favoriteDrinksRepository.getAll().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(2_000),
         initialValue = emptyList()

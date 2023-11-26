@@ -42,7 +42,7 @@ class DrinkRepository @Inject constructor(
         }
     }
 
-    suspend fun searchCocktail(cocktailName: String): DrinkDto {
+    suspend fun searchCocktailByName(cocktailName: String): DrinkDto {
         val drinks = api.searchCocktail(cocktailName).drinks
         return drinks.firstOrNull() ?: throw Exception("Cocktail not found")
     }
