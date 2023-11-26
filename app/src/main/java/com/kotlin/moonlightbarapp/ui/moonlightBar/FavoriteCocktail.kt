@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrinks
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddImage
@@ -56,11 +57,12 @@ import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.theme.Morado83
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
+import com.kotlin.moonlightbarapp.util.Destination
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteCocktail(viewModel: DrinkViewModel) {
+fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
 
     val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
 
@@ -113,14 +115,14 @@ fun FavoriteCocktail(viewModel: DrinkViewModel) {
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.padding(top = 16.dp)
                 )
-                CocktailLabel(favorites)
+                CocktailLabel(favorites, navController)
             }
         }
     )
 }
 
 @Composable
-fun CocktailLabel(cocktails: List<FavoriteDrinks>) {
+fun CocktailLabel(cocktails: List<FavoriteDrinks>, navController: NavController) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
@@ -131,16 +133,18 @@ fun CocktailLabel(cocktails: List<FavoriteDrinks>) {
 
     ) {
         items(cocktails) { cocktail ->
-            CocktailFavoriteCard(cocktail)
+            CocktailFavoriteCard(cocktail, navController)
         }
     }
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun CocktailFavoriteCard(
     cocktail: FavoriteDrinks,
+    navController: NavController,
     viewModel: DrinkViewModel = hiltViewModel()
 ) {
 
@@ -189,6 +193,7 @@ fun CocktailFavoriteCard(
     }
 
     Card(
+        onClick = { navController.navigate("${Destination.ChosenCocktail.route}/${cocktail.strDrink}") },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.elevatedCardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -219,12 +224,12 @@ fun CocktailFavoriteCard(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = 24.dp)
                     )
-//                    Text(
-//                        text = cocktail.strGlass,
-//                        style = MaterialTheme.typography.titleMedium,
-//                        textAlign = TextAlign.Center,
-//                        modifier = Modifier.padding(top = 8.dp)
-//                    )
+                    Text(
+                        text = cocktail.strGlass,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
                 }
             }
             IconToggleButton(

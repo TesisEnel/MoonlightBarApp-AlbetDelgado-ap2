@@ -42,11 +42,6 @@ class DrinkRepository @Inject constructor(
         }
     }
 
-    suspend fun getCocktailById(id: String): DrinkDto? {
-        println("El id de repository: ${api.getCocktailById(id)?.idDrink}")
-        return api.getCocktailById(id)
-    }
-
     suspend fun searchCocktail(cocktailName: String): DrinkDto {
         val drinks = api.searchCocktail(cocktailName).drinks
         return drinks.firstOrNull() ?: throw Exception("Cocktail not found")

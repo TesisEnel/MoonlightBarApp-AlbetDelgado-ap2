@@ -83,13 +83,13 @@ fun AppNavigation(navController: NavHostController) {
             mostPopularCocktails()
         }
         composable(Destination.Favoritos.route) {
-            FavoriteCocktail(viewModel)
+            FavoriteCocktail(viewModel, navController)
         }
-        composable("${Destination.ChosenCocktail.route}/{id}",
-            arguments = listOf(navArgument("id"){type = NavType.IntType})
+        composable("${Destination.ChosenCocktail.route}/{cocktailName}",
+            arguments = listOf(navArgument("cocktailName") { type = NavType.StringType })
         ) { capture ->
-            val id = capture.arguments?.getInt("id") ?: 0
-            ChosenCocktail(id = id.toString(),viewModel, navController)
+            val cocktailName = capture.arguments?.getString("cocktailName") ?: ""
+            ChosenCocktail(cocktailName = cocktailName, viewModel, navController)
         }
     }
 }

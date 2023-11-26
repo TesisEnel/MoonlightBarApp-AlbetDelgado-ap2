@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Favorite
@@ -39,7 +40,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -58,6 +62,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -95,7 +101,7 @@ fun CocktailCard(
     }
 
     Card(
-        onClick = { navController.navigate("${Destination.ChosenCocktail.route}/${cocktail.idDrink}") },
+        onClick = { navController.navigate("${Destination.ChosenCocktail.route}/${cocktail.strDrink}") },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.elevatedCardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -182,6 +188,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var textFieldValue by remember { mutableStateOf("") }
+    var showSnackbar by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
@@ -224,6 +231,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                 CustomArc()
                 Column {
                     MyTextField(
+
                         modificador = Modifier.offset(y = (-5).dp),
                         valor = textFieldValue,
                         alCambiarValor = { newValue -> textFieldValue = newValue },
@@ -231,11 +239,53 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                             Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
                         },
                         iconoIzquierdo = {
-                            Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                            IconButton(onClick = {
+                                keyboardController?.hide()
+                                val cocktailFound = uiState.drinks.find {
+                                    it.strDrink.lowercase() == textFieldValue.lowercase()
+                                }
+                                if(cocktailFound != null){
+                                    navController.navigate("${Destination.ChosenCocktail.route}/${cocktailFound.strDrink}")
+                                } else {
+                                    showSnackbar = true
+                                }
+                            }) {
+                                Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                            }
                         },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Search
+                        ),
                         textoQueDesaparece = "Search cocktail",
-                        keyboardActions = KeyboardActions(onDone = { keyboardController?.hide() })
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                            keyboardController?.hide()
+                            val cocktailFound = uiState.drinks.find {
+                                it.strDrink.lowercase() == textFieldValue.lowercase()
+                            }
+                            if(cocktailFound != null){
+                                navController.navigate("${Destination.ChosenCocktail.route}/${cocktailFound.strDrink}")
+                            } else {
+                                showSnackbar = true
+                            }
+                        })
                     )
+
+                    if (showSnackbar) {
+                        Surface(color = Morado40) {
+                            Snackbar(
+                                modifier = Modifier.padding(16.dp),
+                                action = {
+                                    TextButton(onClick = { showSnackbar = false }) {
+                                        Text("OK", color = Morado100)
+                                    }
+                                }
+                            ) {
+                                Text("Cocktail not found", color = Morado100)
+                            }
+                        }
+                    }
 
                     if (uiState.isLoading) {
                         Box(

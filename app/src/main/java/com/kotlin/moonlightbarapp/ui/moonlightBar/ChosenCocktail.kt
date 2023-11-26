@@ -56,32 +56,30 @@ import com.kotlin.moonlightbarapp.util.Destination
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChosenCocktail(id: String, viewModel: DrinkViewModel, navController: NavController ) {
+fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navController: NavController ) {
 
     DisposableEffect(Unit) {
-        viewModel.getCocktailById(id)
+        viewModel.getCocktailByName(cocktailName)
         onDispose {
         }
     }
 
-    println("El id del screen: ${viewModel.drink.idDrink}")
-
     val ingredientsWithImages = listOfNotNull(
-        viewModel.drink.strIngredient1?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient2?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient3?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient4?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient5?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient6?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient7?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient8?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient9?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient10?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient11?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient12?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient13?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient14?.let { it to getIngredientImageUrl(it) },
-        viewModel.drink.strIngredient15?.let { it to getIngredientImageUrl(it) },
+        viewModel.drink.strIngredient1?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure1) },
+        viewModel.drink.strIngredient2?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure2) },
+        viewModel.drink.strIngredient3?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure3) },
+        viewModel.drink.strIngredient4?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure4) },
+        viewModel.drink.strIngredient5?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure5) },
+        viewModel.drink.strIngredient6?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure6) },
+        viewModel.drink.strIngredient7?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure7) },
+        viewModel.drink.strIngredient8?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure8) },
+        viewModel.drink.strIngredient9?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure9) },
+        viewModel.drink.strIngredient10?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure10) },
+        viewModel.drink.strIngredient11?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure11) },
+        viewModel.drink.strIngredient12?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure12) },
+        viewModel.drink.strIngredient13?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure13) },
+        viewModel.drink.strIngredient14?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure14) },
+        viewModel.drink.strIngredient15?.let { Triple(it, getIngredientImageUrl(it), viewModel.drink.strMeasure15) },
     )
 
     Scaffold(
@@ -136,6 +134,7 @@ fun ChosenCocktail(id: String, viewModel: DrinkViewModel, navController: NavCont
         contentAlignment = Alignment.TopCenter
 
     ) {
+        //Aqui se ve la imagen!!!!!!!
         AddImage(
             url = viewModel.drink.strDrinkThumb,
             description = "Image"
@@ -179,7 +178,7 @@ fun ChosenCocktail(id: String, viewModel: DrinkViewModel, navController: NavCont
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp
                     ),
-                    text = "Instrucciones:")
+                    text = "Instructions:")
                 Text(
                     modifier = Modifier
                         .height(5.dp)
@@ -194,8 +193,9 @@ fun ChosenCocktail(id: String, viewModel: DrinkViewModel, navController: NavCont
     }
 }
 
+@SuppressLint("FrequentlyChangedStateReadInComposition")
 @Composable
-fun IngredientsList(ingredients: List<Pair<String, String>>) {
+fun IngredientsList(ingredients: List<Triple<String, String, String?>>) {
 
     val scrollState = rememberLazyListState()
     val progress = scrollState.firstVisibleItemIndex.toFloat() / (ingredients.size - 1)
@@ -212,8 +212,8 @@ fun IngredientsList(ingredients: List<Pair<String, String>>) {
                 .background(color = Morado40)
                 .padding(2.dp)
         ) {
-            items(ingredients) { (name, url) ->
-                IngredientCard(name = name, imageUrl = url)
+            items(ingredients) { (name, url, measure) ->
+                IngredientCard(name = name, imageUrl = url, measure = measure)
             }
         }
         Spacer(modifier = Modifier.height(30.dp))
@@ -222,7 +222,7 @@ fun IngredientsList(ingredients: List<Pair<String, String>>) {
 }
 
 @Composable
-fun IngredientCard(name: String, imageUrl: String) {
+fun IngredientCard(name: String, imageUrl: String, measure: String?) {
     Column(
         modifier = Modifier
             .width(85.dp)
@@ -247,8 +247,8 @@ fun IngredientCard(name: String, imageUrl: String) {
             )
         }
         Text(
-            text = name,
-            color = Color.White,
+            text = "$name (${measure ?:""})",
+            color = Color.Black,
             fontFamily = FontFamily.Serif,
             textAlign = TextAlign.Center,
             maxLines = 4,

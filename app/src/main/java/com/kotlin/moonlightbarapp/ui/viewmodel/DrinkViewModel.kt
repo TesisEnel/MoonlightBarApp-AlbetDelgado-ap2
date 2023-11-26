@@ -74,9 +74,9 @@ class DrinkViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getCocktailById(id: String) {
+    fun getCocktailByName(cocktailName: String) {
         viewModelScope.launch {
-            drink = drinkRepository.getCocktailById(id)!!
+            drink = drinkRepository.searchCocktail(cocktailName)
         }
     }
 
