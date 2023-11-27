@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -137,7 +138,8 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
         //Aqui se ve la imagen!!!!!!!
         AddImage(
             url = viewModel.drink.strDrinkThumb,
-            description = "Image"
+            description = "Image",
+            modifier = Modifier.size(96.dp)
         )
         Box(
             modifier = Modifier

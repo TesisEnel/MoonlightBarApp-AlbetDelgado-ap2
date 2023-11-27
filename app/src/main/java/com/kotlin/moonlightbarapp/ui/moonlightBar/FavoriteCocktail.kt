@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -113,6 +114,7 @@ fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
                 Text(
                     text = "Favorites cocktails",
                     style = MaterialTheme.typography.headlineLarge,
+                    fontStyle= FontStyle.Italic,
                     modifier = Modifier.padding(top = 16.dp)
                 )
                 CocktailLabel(favorites, navController)
@@ -191,7 +193,6 @@ fun CocktailFavoriteCard(
             }
         )
     }
-
     Card(
         onClick = { navController.navigate("${Destination.ChosenCocktail.route}/${cocktail.strDrink}") },
         shape = RoundedCornerShape(10.dp),
@@ -206,29 +207,28 @@ fun CocktailFavoriteCard(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Column(
+            Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(8.dp)
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                AddImage(
+                    url = cocktail.strDrinkThumb,
+                    description = "Image"
+                )
+                Column(
+                    modifier = Modifier.padding(start = 8.dp)
                 ) {
-                    AddImage(
-                        url = cocktail.strDrinkThumb,
-                        description = "Image"
-                    )
                     Text(
                         text = cocktail.strDrink,
                         style = MaterialTheme.typography.titleLarge,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(bottom = 24.dp)
+                        modifier = Modifier.padding(bottom = 5.dp)
                     )
                     Text(
                         text = cocktail.strGlass,
-                        style = MaterialTheme.typography.titleMedium,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 8.dp)
+                        style = MaterialTheme.typography.labelMedium
                     )
                 }
             }

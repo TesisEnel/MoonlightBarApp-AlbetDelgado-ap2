@@ -107,7 +107,7 @@ fun CocktailCard(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .padding(15.dp)
-            .size(width = 180.dp, height = 100.dp),
+            .size(width = 300.dp, height = 100.dp),
         border = BorderStroke(1.dp, Color.Gray)
     ) {
         Box(
@@ -124,13 +124,17 @@ fun CocktailCard(
                 ) {
                     AddImage(
                         url = cocktail.strDrinkThumb,
-                        description = "Image"
+                        description = "Image",
+                        modifier = Modifier.size(50.dp)
+
+
+
                     )
                     Text(
                         text = cocktail.strDrink,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Left,
-                        modifier = Modifier.padding(top = 16.dp)
+                        modifier = Modifier.padding(top = 16.dp, start = 5.dp)
                     )
                 }
             }
@@ -139,6 +143,7 @@ fun CocktailCard(
                 onCheckedChange = { favoriteOn = it },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
+                    .padding(end = 2.dp)
             ) {
                 if (favoriteOn) {
                     Icon(
@@ -171,7 +176,7 @@ fun CocktailGrid(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(2.dp),
-        modifier = Modifier.padding(20.dp)
+        modifier = Modifier.padding(5.dp,)
 
     ) {
         items(cocktails) { cocktail ->
