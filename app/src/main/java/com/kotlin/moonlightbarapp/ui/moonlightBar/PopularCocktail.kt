@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
-import com.kotlin.moonlightbarapp.ui.components.AddImageDecente
+import com.kotlin.moonlightbarapp.ui.components.AddDecentImage
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
@@ -55,7 +55,6 @@ import com.kotlin.moonlightbarapp.util.Destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MostPopularCocktails(viewModel: DrinkViewModel,navController: NavController) {
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -94,7 +93,6 @@ fun MostPopularCocktails(viewModel: DrinkViewModel,navController: NavController)
                 }
             )
         },
-
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -126,7 +124,6 @@ fun MostPopularCocktails(viewModel: DrinkViewModel,navController: NavController)
                 } else {
                     CocktailLabel(uiState.popularDrinks,navController)
                 }
-
             }
         }
     )
@@ -175,7 +172,7 @@ fun CocktailCard(cocktail: DrinkDto,navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-               AddImageDecente(
+               AddDecentImage(
                    url = cocktail.strDrinkThumb,
                    description = "Image",
                    modifier = Modifier.size(85.dp)
@@ -214,6 +211,6 @@ fun CocktailLabel(cocktail: List<DrinkDto>, navController: NavController){
     ) {
     items(cocktail) { cocktail ->
         CocktailCard(cocktail,navController)
-            }
+        }
     }
 }

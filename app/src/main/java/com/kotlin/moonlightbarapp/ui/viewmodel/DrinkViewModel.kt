@@ -27,11 +27,10 @@ import javax.inject.Inject
 @HiltViewModel
 class DrinkViewModel @Inject constructor(
     private val drinkRepository: DrinkRepository,
-    private val favoriteDrinksRepository: FavoriteDrinkRepository
+    private val favoriteDrinkRepository: FavoriteDrinkRepository
 ): ViewModel() {
 
     var drink by mutableStateOf(DrinkDto())
-
     private val _uiState = MutableStateFlow(DrinkListState())
     val uiState: StateFlow<DrinkListState> = _uiState.asStateFlow()
 
@@ -126,20 +125,19 @@ class DrinkViewModel @Inject constructor(
                 strMeasure14 = cocktail.strMeasure14,
                 strMeasure15 = cocktail.strMeasure15,
             )
-            favoriteDrinksRepository.save(drink)
+            favoriteDrinkRepository.save(drink)
         }
     }
 
     fun delete(favoriteDrink: FavoriteDrink){
         viewModelScope.launch {
-            favoriteDrinksRepository.delete(favoriteDrink)
+            favoriteDrinkRepository.delete(favoriteDrink)
         }
     }
 
-    val favoriteDrinks: StateFlow<List<FavoriteDrink>> = favoriteDrinksRepository.getAll().stateIn(
+    val favoriteDrinks: StateFlow<List<FavoriteDrink>> = favoriteDrinkRepository.getAll().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(2_000),
         initialValue = emptyList()
     )
-
 }

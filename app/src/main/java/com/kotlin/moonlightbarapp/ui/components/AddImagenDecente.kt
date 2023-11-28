@@ -10,7 +10,7 @@ import coil.compose.rememberAsyncImagePainter
 
 
 @Composable
-fun AddImageDecente(
+fun AddDecentImage(
     url: String,
     modifier: Modifier = Modifier,
     description: String,

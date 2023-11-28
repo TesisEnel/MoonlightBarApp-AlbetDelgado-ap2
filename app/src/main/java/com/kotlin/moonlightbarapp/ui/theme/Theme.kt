@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
@@ -91,7 +90,6 @@ private val DarkColors = darkColorScheme(
 @Composable
 fun MoonlightBarAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
@@ -118,13 +116,4 @@ fun MoonlightBarAppTheme(
         typography = Typography,
         content = content
     )
-}
-@Composable
-fun MyAppBar() {
-    // Puedes cambiar el color aquí
-    val appBarColor = Morado40
-
-    Surface(color = appBarColor) {
-
-    }
 }
