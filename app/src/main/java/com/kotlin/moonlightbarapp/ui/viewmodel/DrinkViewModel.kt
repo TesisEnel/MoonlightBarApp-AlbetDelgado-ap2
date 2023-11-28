@@ -36,9 +36,10 @@ class DrinkViewModel @Inject constructor(
     val uiState: StateFlow<DrinkListState> = _uiState.asStateFlow()
 
     init {
-        loadScreen()
+        getRandomCocktail()
+        getPopularCocktail()
     }
-    fun loadScreen() {
+    fun getRandomCocktail() {
         drinkRepository.getRandomCocktail().onEach { result ->
             when (result) {
                 is Resource.Loading -> {
@@ -56,7 +57,7 @@ class DrinkViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun loadPopularScreen() {
+    fun getPopularCocktail() {
         drinkRepository.getPopularCocktail().onEach { result ->
             when (result) {
                 is Resource.Loading -> {
@@ -64,7 +65,7 @@ class DrinkViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-                    _uiState.update { it.copy(drinks = result.data ?: emptyList(), isLoading = false) }
+                    _uiState.update { it.copy(popularDrinks = result.data ?: emptyList(), isLoading = false) } // Actualiza popularDrinks
                 }
 
                 is Resource.Error -> {
@@ -140,6 +141,5 @@ class DrinkViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(2_000),
         initialValue = emptyList()
     )
-
 
 }

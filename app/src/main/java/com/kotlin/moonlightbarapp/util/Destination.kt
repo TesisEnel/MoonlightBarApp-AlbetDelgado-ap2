@@ -7,7 +7,10 @@ import androidx.compose.material.icons.filled.LocalDrink
 import androidx.compose.material.icons.filled.WineBar
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class Destination(val route: String, val icon: ImageVector, val title: String) {
+sealed class Destination(val route: String, val icon: ImageVector? = null, val title: String? = null) {
+    object Splash : Destination(
+        route = "Splash"
+    )
     object MoonBar : Destination(
         route = "MoonBar", icon = Icons.Filled.Bedtime,
         title = "Moon Bar"

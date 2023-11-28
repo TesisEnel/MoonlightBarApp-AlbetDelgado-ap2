@@ -126,9 +126,6 @@ fun CocktailCard(
                         url = cocktail.strDrinkThumb,
                         description = "Image",
                         modifier = Modifier.size(50.dp)
-
-
-
                     )
                     Text(
                         text = cocktail.strDrink,
@@ -190,7 +187,6 @@ fun CocktailGrid(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var textFieldValue by remember { mutableStateOf("") }
     var showSnackbar by remember { mutableStateOf(false) }
@@ -310,7 +306,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                     }
 
                     FloatingActionButton(
-                        onClick = { viewModel.loadScreen() },
+                        onClick = { viewModel.getRandomCocktail() },
                         modifier = Modifier
                             .align(Alignment.Start)
                             .padding(start = 301.dp, top = 16.dp)
@@ -351,7 +347,6 @@ fun CustomArc() {
 
 @Composable
 fun CardFooter(navController: NavController) {
-
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Moon Bar", "Populars", "Favorites")
     val icons = listOf(

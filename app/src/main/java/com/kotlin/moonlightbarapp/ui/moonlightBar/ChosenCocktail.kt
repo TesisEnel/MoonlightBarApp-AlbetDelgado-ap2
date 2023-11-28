@@ -135,7 +135,6 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
         contentAlignment = Alignment.TopCenter
 
     ) {
-        //Aqui se ve la imagen!!!!!!!
         AddImage(
             url = viewModel.drink.strDrinkThumb,
             description = "Image",

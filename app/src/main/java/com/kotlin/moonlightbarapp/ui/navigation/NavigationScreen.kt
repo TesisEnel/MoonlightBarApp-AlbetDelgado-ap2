@@ -13,6 +13,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.kotlin.moonlightbarapp.R
@@ -41,15 +44,20 @@ import com.kotlin.moonlightbarapp.util.Destination
 import kotlinx.coroutines.delay
 
 
+private const val SplashWaitTime: Long = 2000
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScreen() {
-
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
         bottomBar = {
-            CardFooter(navController = navController)
+            if (currentRoute != Destination.Splash.route) {
+                CardFooter(navController = navController)
+            }
         },
         content = { padding ->
             Box(modifier = Modifier.padding(padding)) {
@@ -61,26 +69,17 @@ fun AppScreen() {
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
-
     val viewModel: DrinkViewModel = hiltViewModel()
 
-    LaunchedEffect(key1 = true) {
-        delay(2000)
-        navController.navigate(Destination.MoonBar.route) {
-            popUpTo(navController.graph.startDestinationId) {
-                saveState = true
-            }
-            launchSingleTop = true
-            restoreState = true
+    NavHost(navController, startDestination = Destination.Splash.route) {
+        composable(Destination.Splash.route) {
+            LandingScreen(onTimeout = { navController.navigate(Destination.MoonBar.route) })
         }
-    }
-
-    NavHost(navController, startDestination = Destination.MoonBar.route) {
         composable(Destination.MoonBar.route) {
             CocktailTopBar(viewModel, navController)
         }
         composable(Destination.Populares.route) {
-            mostPopularCocktails()
+            mostPopularCocktails(viewModel)
         }
         composable(Destination.Favoritos.route) {
             FavoriteCocktail(viewModel, navController)
@@ -95,7 +94,14 @@ fun AppNavigation(navController: NavHostController) {
 }
 
 @Composable
-fun SplashScreen() {
+fun LandingScreen(onTimeout: () -> Unit, modifier: Modifier = Modifier) {
+    val currentOnTimeout by rememberUpdatedState(onTimeout)
+
+    LaunchedEffect(Unit) {
+        delay(SplashWaitTime)
+        currentOnTimeout()
+    }
+
     MoonlightBarAppTheme {
         Column(
             modifier = Modifier
@@ -119,6 +125,7 @@ fun SplashScreen() {
         }
     }
 }
+
 
 
 

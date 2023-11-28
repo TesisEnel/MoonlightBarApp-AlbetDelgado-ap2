@@ -64,7 +64,6 @@ import com.kotlin.moonlightbarapp.util.Destination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
-
     val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -125,7 +124,6 @@ fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
 
 @Composable
 fun CocktailLabel(cocktails: List<FavoriteDrink>, navController: NavController) {
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
         contentPadding = PaddingValues(2.dp),
@@ -138,7 +136,6 @@ fun CocktailLabel(cocktails: List<FavoriteDrink>, navController: NavController) 
             CocktailFavoriteCard(cocktail, navController)
         }
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
