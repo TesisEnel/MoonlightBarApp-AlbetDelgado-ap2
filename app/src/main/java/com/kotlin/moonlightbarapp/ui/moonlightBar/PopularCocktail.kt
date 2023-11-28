@@ -43,16 +43,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddImageDecente
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
+import com.kotlin.moonlightbarapp.util.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun mostPopularCocktails(viewModel: DrinkViewModel) {
+fun MostPopularCocktails(viewModel: DrinkViewModel,navController: NavController) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -122,7 +124,7 @@ fun mostPopularCocktails(viewModel: DrinkViewModel) {
                         )
                     }
                 } else {
-                    CocktailLabel(uiState.popularDrinks)
+                    CocktailLabel(uiState.popularDrinks,navController)
                 }
 
             }
@@ -150,9 +152,11 @@ fun IngredientsList(cocktail: DrinkDto) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailCard(cocktail: DrinkDto) {
+fun CocktailCard(cocktail: DrinkDto,navController: NavController) {
     Card(
+        onClick = { navController.navigate("${Destination.ChosenCocktail.route}/${cocktail.strDrink}") },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.elevatedCardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -200,7 +204,7 @@ fun CocktailCard(cocktail: DrinkDto) {
     }
 }
 @Composable
-fun CocktailLabel(cocktail: List<DrinkDto>){
+fun CocktailLabel(cocktail: List<DrinkDto>, navController: NavController){
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
         contentPadding = PaddingValues(2.dp),
@@ -209,7 +213,7 @@ fun CocktailLabel(cocktail: List<DrinkDto>){
         .padding(20.dp)
     ) {
     items(cocktail) { cocktail ->
-        CocktailCard(cocktail)
+        CocktailCard(cocktail,navController)
             }
     }
 }

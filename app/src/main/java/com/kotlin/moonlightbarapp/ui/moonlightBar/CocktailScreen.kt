@@ -105,10 +105,10 @@ fun CocktailCard(
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.elevatedCardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, Color.Gray),
         modifier = Modifier
             .padding(15.dp)
             .size(width = 300.dp, height = 100.dp),
-        border = BorderStroke(1.dp, Color.Gray)
     ) {
         Box(
             modifier = Modifier
@@ -173,7 +173,7 @@ fun CocktailGrid(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(2.dp),
-        modifier = Modifier.padding(5.dp,)
+        modifier = Modifier.padding(5.dp)
 
     ) {
         items(cocktails) { cocktail ->

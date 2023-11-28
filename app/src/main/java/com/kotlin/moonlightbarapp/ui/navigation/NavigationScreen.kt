@@ -36,7 +36,7 @@ import com.kotlin.moonlightbarapp.ui.moonlightBar.CardFooter
 import com.kotlin.moonlightbarapp.ui.moonlightBar.ChosenCocktail
 import com.kotlin.moonlightbarapp.ui.moonlightBar.CocktailTopBar
 import com.kotlin.moonlightbarapp.ui.moonlightBar.FavoriteCocktail
-import com.kotlin.moonlightbarapp.ui.moonlightBar.mostPopularCocktails
+import com.kotlin.moonlightbarapp.ui.moonlightBar.MostPopularCocktails
 import com.kotlin.moonlightbarapp.ui.theme.MoonlightBarAppTheme
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
@@ -79,7 +79,7 @@ fun AppNavigation(navController: NavHostController) {
             CocktailTopBar(viewModel, navController)
         }
         composable(Destination.Populares.route) {
-            mostPopularCocktails(viewModel)
+            MostPopularCocktails(viewModel,navController)
         }
         composable(Destination.Favoritos.route) {
             FavoriteCocktail(viewModel, navController)
@@ -94,7 +94,7 @@ fun AppNavigation(navController: NavHostController) {
 }
 
 @Composable
-fun LandingScreen(onTimeout: () -> Unit, modifier: Modifier = Modifier) {
+fun LandingScreen(onTimeout: () -> Unit) {
     val currentOnTimeout by rememberUpdatedState(onTimeout)
 
     LaunchedEffect(Unit) {
