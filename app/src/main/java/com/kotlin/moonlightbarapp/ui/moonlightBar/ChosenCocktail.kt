@@ -1,6 +1,7 @@
 package com.kotlin.moonlightbarapp.ui.moonlightBar
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -164,6 +165,7 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
                     .fillMaxWidth()
                     .height(350.dp),
                 color = Color.White,
+                border = BorderStroke(1.dp, Color.Black),
                 shape = RoundedCornerShape(
                     topStartPercent = 8,
                     topEndPercent = 10
@@ -179,7 +181,8 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp
                     ),
-                    text = "Instructions:")
+                    text = "Instructions:"
+                )
                 Text(
                     modifier = Modifier
                         .height(5.dp)
