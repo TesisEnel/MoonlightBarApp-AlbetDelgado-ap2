@@ -92,7 +92,7 @@ fun AppNavigation(navController: NavHostController) {
             ChosenCocktail(cocktailName = cocktailName, viewModel, navController)
         }
         composable(Destination.SearchCocktail.route) {
-            SearchedCocktail()
+            SearchedCocktail(viewModel,navController)
         }
     }
 }
