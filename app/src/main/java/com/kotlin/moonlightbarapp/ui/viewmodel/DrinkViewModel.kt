@@ -82,22 +82,32 @@ class DrinkViewModel @Inject constructor(
     }
 
     fun getCocktailByLetter() {
-        drinkRepository.searchCocktailByLetter("a").onEach { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    _uiState.update { it.copy(isLoading = true) }
-                }
+        val alphabet = ('a'..'z').toList()
 
-                is Resource.Success -> {
-                    _uiState.update { it.copy(drinksByLetter = result.data ?: emptyList(), isLoading = false) }
-                }
+        alphabet.forEach { letter ->
+            drinkRepository.searchCocktailByLetter(letter.toString()).onEach { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        _uiState.update { it.copy(isLoading = true) }
+                    }
 
-                is Resource.Error -> {
-                    _uiState.update { it.copy(error = result.message ?: "Error desconocido", isLoading = false) }
+                    is Resource.Success -> {
+                        val newDrinks = result.data ?: emptyList()
+                        if (newDrinks.isNotEmpty()) {
+                            // Agregar los datos al estado solo si la lista no está vacía
+                            _uiState.update { it.copy(drinksByLetter = it.drinksByLetter + newDrinks, isLoading = false) }
+                        }
+                    }
+
+
+                    is Resource.Error -> {
+                        _uiState.update { it.copy(error = result.message ?: "Error desconocido", isLoading = false) }
+                    }
                 }
-            }
-        }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
+        }
     }
+
 
 
     fun save(cocktail: DrinkDto){

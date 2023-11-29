@@ -12,7 +12,7 @@ import javax.inject.Inject
 class DrinkRepository @Inject constructor(
     private val api: DrinkApi
 ) {
-    fun getRandomCocktail(): Flow<Resource<List<DrinkDto>>> = flow {
+    fun getRandomCocktail(): Flow<Resource<List<DrinkDto>?>> = flow {
         try {
             emit(Resource.Loading())
 
@@ -26,7 +26,7 @@ class DrinkRepository @Inject constructor(
         }
     }
 
-    fun getPopularCocktail(): Flow<Resource<List<DrinkDto>>> = flow {
+    fun getPopularCocktail(): Flow<Resource<List<DrinkDto>?>> = flow {
         try {
             emit(Resource.Loading())
 
@@ -42,10 +42,10 @@ class DrinkRepository @Inject constructor(
 
     suspend fun searchCocktailByName(cocktailName: String): DrinkDto {
         val drinks = api.searchCocktail(cocktailName).drinks
-        return drinks.firstOrNull() ?: throw Exception("Cocktail not found")
+        return drinks?.firstOrNull() ?: throw Exception("Cocktail not found")
     }
 
-    fun searchCocktailByLetter(letter: String): Flow<Resource<List<DrinkDto>>> = flow {
+    fun searchCocktailByLetter(letter: String): Flow<Resource<List<DrinkDto>?>> = flow {
         try {
             emit(Resource.Loading())
 
@@ -59,3 +59,4 @@ class DrinkRepository @Inject constructor(
         }
     }
 }
+

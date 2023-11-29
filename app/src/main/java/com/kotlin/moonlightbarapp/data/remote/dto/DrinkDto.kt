@@ -50,6 +50,6 @@ data class DrinkDto(
 )
 
 data class drinks(
-    val drinks: List<DrinkDto>
+    val drinks: List<DrinkDto>?
 )
 

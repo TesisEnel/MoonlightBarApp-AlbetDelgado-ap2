@@ -49,11 +49,13 @@ import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
 
     Scaffold(
         topBar = {
@@ -103,7 +105,7 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel()) {
                     fontStyle = FontStyle.Italic,
                     color = DeepViolett40,
                     modifier = Modifier.padding(top = 40.dp, start = 5.dp),
-                    )
+                )
                 CocktailLabel1(uiState.drinksByLetter)
 
             }
@@ -111,26 +113,6 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel()) {
     )
 }
 
-
-@Composable
-fun IngredientsList1(cocktail: DrinkDto) {
-    val ingredients = listOfNotNull(
-        cocktail.strIngredient1,
-        cocktail.strIngredient2,
-        cocktail.strIngredient3,
-        cocktail.strIngredient4,
-        cocktail.strIngredient5,
-        cocktail.strIngredient6,
-        cocktail.strIngredient7,
-        cocktail.strIngredient8,
-        cocktail.strIngredient9,
-        cocktail.strIngredient10
-    )
-
-    for (ingredient in ingredients) {
-        Text(text = ingredient, style = MaterialTheme.typography.titleMedium)
-    }
-}
 
 @Composable
 fun CocktailCard1(cocktail:DrinkDto) {
