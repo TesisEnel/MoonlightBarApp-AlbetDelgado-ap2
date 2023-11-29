@@ -94,11 +94,9 @@ class DrinkViewModel @Inject constructor(
                     is Resource.Success -> {
                         val newDrinks = result.data ?: emptyList()
                         if (newDrinks.isNotEmpty()) {
-                            // Agregar los datos al estado solo si la lista no está vacía
                             _uiState.update { it.copy(drinksByLetter = it.drinksByLetter + newDrinks, isLoading = false) }
                         }
                     }
-
 
                     is Resource.Error -> {
                         _uiState.update { it.copy(error = result.message ?: "Error desconocido", isLoading = false) }
@@ -107,8 +105,6 @@ class DrinkViewModel @Inject constructor(
             }.launchIn(viewModelScope)
         }
     }
-
-
 
     fun save(cocktail: DrinkDto){
         viewModelScope.launch {

@@ -18,15 +18,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/data/repository/DrinkRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/data/repository/DrinkRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/components/AddImagenDecente.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/components/AddImagenDecente.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/CocktailScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/CocktailScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/FavoriteCocktail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/FavoriteCocktail.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/PopularCocktail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/PopularCocktail.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/SearchedCocktail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/SearchedCocktail.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/navigation/NavigationScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/navigation/NavigationScreen.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/viewmodel/DrinkViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/viewmodel/DrinkViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\orteg\.android\avd\Pixel_3a_API_33_x86_64.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/reymelindelgadomaria/.android/avd/API_34.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

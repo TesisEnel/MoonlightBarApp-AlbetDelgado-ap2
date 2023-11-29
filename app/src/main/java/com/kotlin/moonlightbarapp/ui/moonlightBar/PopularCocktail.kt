@@ -42,8 +42,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddDecentImage
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
@@ -51,11 +51,10 @@ import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado30
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
-import com.kotlin.moonlightbarapp.util.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MostPopularCocktails(viewModel: DrinkViewModel,navController: NavController) {
+fun MostPopularCocktails(viewModel: DrinkViewModel =  hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -122,7 +121,7 @@ fun MostPopularCocktails(viewModel: DrinkViewModel,navController: NavController)
                         )
                     }
                 } else {
-                    CocktailLabel(uiState.popularDrinks,navController)
+                    CocktailLabel(uiState.popularDrinks)
                 }
             }
         }
@@ -149,11 +148,9 @@ fun IngredientsList(cocktail: DrinkDto) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CocktailCard(cocktail: DrinkDto,navController: NavController) {
+fun CocktailCard(cocktail: DrinkDto) {
     Card(
-        onClick = { navController.navigate("${Destination.ChosenCocktail.route}/${cocktail.strDrink}") },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.elevatedCardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -175,8 +172,9 @@ fun CocktailCard(cocktail: DrinkDto,navController: NavController) {
                AddDecentImage(
                    url = cocktail.strDrinkThumb,
                    description = "Image",
-                   modifier = Modifier.size(95.dp)
-                       .padding(start =10.dp)
+                   modifier = Modifier
+                       .size(95.dp)
+                       .padding(start = 10.dp)
                )
                 Column(
                     modifier = Modifier.padding(start = 70.dp)
@@ -197,22 +195,22 @@ fun CocktailCard(cocktail: DrinkDto,navController: NavController) {
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(top = 8.dp, )
+                    .padding(top = 8.dp)
             )
         }
     }
 }
 @Composable
-fun CocktailLabel(cocktail: List<DrinkDto>, navController: NavController){
+fun CocktailLabel(cocktail: List<DrinkDto>){
     LazyVerticalGrid(
         columns = GridCells.Fixed(1),
         contentPadding = PaddingValues(2.dp),
         modifier = Modifier
-        .fillMaxSize()
-        .padding(20.dp)
+            .fillMaxSize()
+            .padding(20.dp)
     ) {
     items(cocktail) { cocktail ->
-        CocktailCard(cocktail,navController)
+        CocktailCard(cocktail)
         }
     }
 }

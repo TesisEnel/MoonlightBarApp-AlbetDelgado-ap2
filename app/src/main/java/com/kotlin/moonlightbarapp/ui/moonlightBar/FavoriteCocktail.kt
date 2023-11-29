@@ -130,7 +130,6 @@ fun CocktailLabel(cocktails: List<FavoriteDrink>, navController: NavController) 
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
-
     ) {
         items(cocktails) { cocktail ->
             CocktailFavoriteCard(cocktail, navController)

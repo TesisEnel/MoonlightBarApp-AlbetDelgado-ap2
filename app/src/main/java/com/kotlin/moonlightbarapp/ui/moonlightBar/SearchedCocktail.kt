@@ -72,8 +72,7 @@ import com.kotlin.moonlightbarapp.util.Destination
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),
-                     navController: NavController) {
+fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: NavController) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var textFieldValue by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -122,14 +121,13 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Search Cocktail",
+                    text = "Search a Cocktail",
                     style = MaterialTheme.typography.headlineMedium,
                     fontStyle = FontStyle.Italic,
                     color = DeepViolett40,
                     modifier = Modifier.padding(top = 40.dp, start = 5.dp),
                 )
 
-                // Agregar la barra de búsqueda aquí
                 MyTextField(
                     modificador = Modifier
                         .offset(y = (-5).dp),
@@ -141,7 +139,14 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),
                     iconoIzquierdo = {
                         IconButton(onClick = {
                             keyboardController?.hide()
-                           // navController.navigate(Destination.SearchCocktail.route)
+                            val cocktailFound = uiState.drinksByLetter.find {
+                                it.strDrink.lowercase() == textFieldValue.lowercase()
+                            }
+                            if(cocktailFound != null){
+                                navController.navigate("${Destination.ChosenCocktail.route}/${cocktailFound.strDrink}")
+                            } else {
+                                showSnackbar = true
+                            }
                         }) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = null)
                         }
@@ -150,11 +155,11 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Search
                     ),
-                    textoQueDesaparece = "Search cocktail",
+                    textoQueDesaparece = "Type a cocktail",
                     keyboardActions = KeyboardActions(
                         onDone = {
                             keyboardController?.hide()
-                            val cocktailFound = uiState.drinks.find {
+                            val cocktailFound = uiState.drinksByLetter.find {
                                 it.strDrink.lowercase() == textFieldValue.lowercase()
                             }
                             if (cocktailFound != null) {
@@ -164,20 +169,19 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),
                             }
                         })
                 )
-
                 CocktailLabel1(uiState.drinksByLetter,navController,viewModel)
             }
         }
     )
-
 }
-    @SuppressLint("UnrememberedMutableState")
-    @OptIn(ExperimentalMaterial3Api::class)
+
+@SuppressLint("UnrememberedMutableState")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CocktailCard1(
-        cocktail: DrinkDto,
-        navController: NavController,
-        viewModel: DrinkViewModel = hiltViewModel()
+    cocktail: DrinkDto,
+    navController: NavController,
+    viewModel: DrinkViewModel = hiltViewModel()
 ) {
     val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
     var favoriteOn by mutableStateOf(false)
@@ -205,19 +209,16 @@ fun CocktailCard1(
                 .padding(8.dp)
         )
         {
-
             Row(
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-
                 AddDecentImage(
                     url = cocktail.strDrinkThumb,
                     description = "Image",
                     modifier = Modifier.size(100.dp)
                         .align(Alignment.CenterVertically)
                         .padding(start = 20.dp,  bottom = 5.dp)
-                        //.border(BorderStroke(width = 4.dp, color = Morado30))
                 )
             }
             Divider(modifier = Modifier.fillMaxWidth())
@@ -234,10 +235,8 @@ fun CocktailCard1(
                 checked = favoriteOn,
                 onCheckedChange = { favoriteOn = it },
                 modifier = Modifier
-                    //.align(Alignment.TopEnd)
                     .padding(top = 2.dp)
                     .align(Alignment.End)
-
             ) {
                 if (favoriteOn) {
                     Icon(
@@ -261,11 +260,12 @@ fun CocktailCard1(
     }
 }
 
-
 @Composable
-fun CocktailLabel1( list: List<DrinkDto>,
-                    navController: NavController,
-                    viewModel: DrinkViewModel = hiltViewModel())
+fun CocktailLabel1(
+    cocktails: List<DrinkDto>,
+    navController: NavController,
+    viewModel: DrinkViewModel = hiltViewModel()
+)
 {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -273,11 +273,9 @@ fun CocktailLabel1( list: List<DrinkDto>,
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp)
-
     ) {
-        items(list) { cocktail ->
+        items(cocktails) { cocktail ->
             CocktailCard1(cocktail,navController,viewModel)
         }
-
     }
 }

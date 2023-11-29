@@ -80,7 +80,7 @@ fun AppNavigation(navController: NavHostController) {
             CocktailTopBar(viewModel, navController)
         }
         composable(Destination.Populares.route) {
-            MostPopularCocktails(viewModel,navController)
+            MostPopularCocktails(viewModel)
         }
         composable(Destination.Favoritos.route) {
             FavoriteCocktail(viewModel, navController)
