@@ -37,6 +37,7 @@ fun MyTextField(
 
     TextField(
         value = valor,
+
         onValueChange = alCambiarValor,
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,

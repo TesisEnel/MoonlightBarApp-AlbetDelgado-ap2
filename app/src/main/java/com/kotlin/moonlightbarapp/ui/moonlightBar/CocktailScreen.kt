@@ -233,12 +233,14 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
             )
         },
         content = { innerPadding ->
-            Box(modifier = Modifier.padding(innerPadding)) {
+            Box(
+                modifier = Modifier.padding(innerPadding)
+            ) {
                 CustomArc()
                 Column {
                     MyTextField(
-                        modificador = Modifier.offset(y = (-5).dp)
-                            ,
+                        modificador = Modifier
+                            .offset(y = (-5).dp),
                         valor = textFieldValue,
                         alCambiarValor = { newValue -> textFieldValue = newValue },
                         iconoDerecho = {
@@ -247,14 +249,15 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                         iconoIzquierdo = {
                             IconButton(onClick = {
                                 keyboardController?.hide()
-                                val cocktailFound = uiState.drinks.find {
-                                    it.strDrink.lowercase() == textFieldValue.lowercase()
-                                }
-                                if(cocktailFound != null){
-                                    navController.navigate("${Destination.ChosenCocktail.route}/${cocktailFound.strDrink}")
-                                } else {
-                                    showSnackbar = true
-                                }
+                                     navController.navigate(Destination.SearchCocktail.route)
+//                                val cocktailFound = uiState.drinks.find {
+//                                    it.strDrink.lowercase() == textFieldValue.lowercase()
+//                                }
+//                                if(cocktailFound != null){
+//                                    navController.navigate("${Destination.ChosenCocktail.route}/${cocktailFound.strDrink}")
+//                                } else {
+//                                    showSnackbar = true
+//                                }
                             }) {
                                 Icon(imageVector = Icons.Default.Search, contentDescription = null)
                             }
@@ -277,6 +280,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                                 }
                             })
                     )
+
 
                     if (textFieldValue.isNotEmpty()) {
 

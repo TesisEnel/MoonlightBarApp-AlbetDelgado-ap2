@@ -37,6 +37,7 @@ class DrinkViewModel @Inject constructor(
     init {
         getRandomCocktail()
         getPopularCocktail()
+        getCocktailByLetter()
     }
     fun getRandomCocktail() {
         drinkRepository.getRandomCocktail().onEach { result ->
@@ -64,7 +65,7 @@ class DrinkViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-                    _uiState.update { it.copy(popularDrinks = result.data ?: emptyList(), isLoading = false) } // Actualiza popularDrinks
+                    _uiState.update { it.copy(popularDrinks = result.data ?: emptyList(), isLoading = false) }
                 }
 
                 is Resource.Error -> {
@@ -79,6 +80,25 @@ class DrinkViewModel @Inject constructor(
             drink = drinkRepository.searchCocktailByName(cocktailName)
         }
     }
+
+    fun getCocktailByLetter() {
+        drinkRepository.searchCocktailByLetter("a").onEach { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    _uiState.update { it.copy(isLoading = true) }
+                }
+
+                is Resource.Success -> {
+                    _uiState.update { it.copy(drinksByLetter = result.data ?: emptyList(), isLoading = false) }
+                }
+
+                is Resource.Error -> {
+                    _uiState.update { it.copy(error = result.message ?: "Error desconocido", isLoading = false) }
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
 
     fun save(cocktail: DrinkDto){
         viewModelScope.launch {

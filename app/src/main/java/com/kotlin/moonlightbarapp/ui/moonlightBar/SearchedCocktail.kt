@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
@@ -26,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,21 +38,22 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddDecentImage
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
+import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchedCocktail() {
-    //val popular by viewModel.loadPopularScreen().collectAsStateWithLifecycle()
+fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel()) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -75,7 +78,6 @@ fun SearchedCocktail() {
                             textAlign = TextAlign.Center,
                         ),
                         modifier = Modifier.fillMaxWidth()
-
                     )
                 },
                 actions = {
@@ -88,7 +90,6 @@ fun SearchedCocktail() {
                 }
             )
         },
-
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -102,9 +103,8 @@ fun SearchedCocktail() {
                     fontStyle = FontStyle.Italic,
                     color = DeepViolett40,
                     modifier = Modifier.padding(top = 40.dp, start = 5.dp),
-
                     )
-                CocktailLabel1()
+                CocktailLabel1(uiState.drinksByLetter)
 
             }
         }
@@ -114,7 +114,7 @@ fun SearchedCocktail() {
 
 @Composable
 fun IngredientsList1(cocktail: DrinkDto) {
-    val ingredients = listOf(
+    val ingredients = listOfNotNull(
         cocktail.strIngredient1,
         cocktail.strIngredient2,
         cocktail.strIngredient3,
@@ -125,29 +125,15 @@ fun IngredientsList1(cocktail: DrinkDto) {
         cocktail.strIngredient8,
         cocktail.strIngredient9,
         cocktail.strIngredient10
-    ).filterNotNull()
+    )
 
     for (ingredient in ingredients) {
         Text(text = ingredient, style = MaterialTheme.typography.titleMedium)
     }
 }
-//@Preview(showBackground = true)
+
 @Composable
-fun CocktailCard1() {
-    // cóctel de ejemplo
-    val cocktail = DrinkDto(
-        strDrink = "Margarita",
-        strDrinkThumb = "",
-        strGlass = "Cocktail glass",
-        strInstructions = "Rub the rim of the glass with the lime slice to make the salt stick to it. Take care to moisten..",
-        strIngredient1 = "Tequila",
-        strIngredient2 = "Triple sec",
-        strIngredient3 = "Lime juice",
-        strIngredient4 = "Salt",
-        strMeasure1 = "1 1/2 oz ",
-        strMeasure2 = "1/2 oz ",
-        strMeasure3 = "1 oz "
-    )
+fun CocktailCard1(cocktail:DrinkDto) {
 
     Card(
         shape = RoundedCornerShape(10.dp),
@@ -173,7 +159,6 @@ fun CocktailCard1() {
                     description = "Image",
                     modifier = Modifier.size(100.dp)
                 )
-
             }
             Divider()
 
@@ -185,12 +170,12 @@ fun CocktailCard1() {
                     .align(Alignment.CenterHorizontally)
                     .padding(top = 8.dp, start = 15.dp)
             )
-
         }
     }
 }
+
 @Composable
-fun CocktailLabel1(){
+fun CocktailLabel1( list: List<DrinkDto>) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(2.dp),
@@ -199,24 +184,9 @@ fun CocktailLabel1(){
             .padding(20.dp)
 
     ) {
-        items(5) { cocktail ->
-            CocktailCard1()
+        items(list) { cocktail ->
+            CocktailCard1(cocktail)
         }
 
     }
 }
-
-
-
-//@Composable
-//fun CocktailCardsGrid() {
-//    LazyColumn(modifier = Modifier.padding(top = 90.dp)) {
-//        items(1) { _ ->  // Repite la estructura dos veces
-//            LazyRow {
-//                items(5) { _ ->  // Coloca dos CocktailCard uno al lado del otro
-//                    CocktailCard()
-//                }
-//            }
-//        }
-//    }
-//}

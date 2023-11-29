@@ -13,4 +13,6 @@ interface DrinkApi {
 
     @GET("/api/json/v2/9973533/search.php")
     suspend fun searchCocktail(@Query("s") cocktailName: String): drinks
+    @GET("/api/json/v2/9973533/search.php")
+    suspend fun searchCocktailByLetter(@Query("f") letter: String): drinks
 }

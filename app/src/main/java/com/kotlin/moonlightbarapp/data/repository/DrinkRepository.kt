@@ -22,7 +22,6 @@ class DrinkRepository @Inject constructor(
         } catch (e: HttpException) {
             emit(Resource.Error(e.message ?: "Error HTTP"))
         } catch (e: IOException) {
-
             emit(Resource.Error(e.message ?: "Verificar tu conexión a internet"))
         }
     }
@@ -37,7 +36,6 @@ class DrinkRepository @Inject constructor(
         } catch (e: HttpException) {
             emit(Resource.Error(e.message ?: "Error HTTP"))
         } catch (e: IOException) {
-
             emit(Resource.Error(e.message ?: "Verificar tu conexión a internet"))
         }
     }
@@ -47,5 +45,17 @@ class DrinkRepository @Inject constructor(
         return drinks.firstOrNull() ?: throw Exception("Cocktail not found")
     }
 
+    fun searchCocktailByLetter(letter: String): Flow<Resource<List<DrinkDto>>> = flow {
+        try {
+            emit(Resource.Loading())
 
+            val drinks = api.searchCocktailByLetter(letter)
+
+            emit(Resource.Success(drinks.drinks))
+        } catch (e: HttpException) {
+            emit(Resource.Error(e.message ?: "Error HTTP"))
+        } catch (e: IOException) {
+            emit(Resource.Error(e.message ?: "Verificar tu conexión a internet"))
+        }
+    }
 }

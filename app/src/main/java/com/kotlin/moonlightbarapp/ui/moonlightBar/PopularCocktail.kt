@@ -81,7 +81,6 @@ fun MostPopularCocktails(viewModel: DrinkViewModel,navController: NavController)
                             textAlign = TextAlign.Center,
                         ),
                         modifier = Modifier.fillMaxWidth()
-
                     )
                 },
                 actions = {
