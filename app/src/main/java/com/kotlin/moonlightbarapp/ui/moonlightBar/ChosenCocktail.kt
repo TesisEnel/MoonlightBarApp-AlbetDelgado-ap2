@@ -50,7 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.kotlin.moonlightbarapp.ui.components.AddImage
-import com.kotlin.moonlightbarapp.ui.theme.Gris_morado50
+import com.kotlin.moonlightbarapp.ui.theme.Gris22
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
@@ -251,7 +251,7 @@ fun IngredientsList(ingredients: List<Triple<String, String, String?>>) {
             }
         }
         Spacer(modifier = Modifier.height(30.dp))
-        LinearProgressIndicator(progress = progress, modifier = Modifier.fillMaxWidth(), trackColor = Gris_morado50)
+        LinearProgressIndicator(progress = progress, modifier = Modifier.fillMaxWidth(), trackColor = Gris22)
     }
 }
 
@@ -282,8 +282,9 @@ fun IngredientCard(name: String, imageUrl: String, measure: String?) {
         }
         Text(
             text = "$name (${measure ?:""})",
-            color = Color.Black,
+            color = Color.White,
             fontFamily = FontFamily.Serif,
+            fontSize=12.sp,
             textAlign = TextAlign.Center,
             maxLines = 4,
             overflow = TextOverflow.Visible,
@@ -301,6 +302,6 @@ fun getIngredientImageUrl(ingredientName: String?): String{
 fun TipoDeTraggo(strType: String) {
     ElevatedSuggestionChip(
         onClick = { /* Do something! */ },
-        label = { Text(strType) }
+        label = { Text(strType, fontStyle = FontStyle.Italic ) }
     )
 }
