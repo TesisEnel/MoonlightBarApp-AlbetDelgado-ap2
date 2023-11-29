@@ -97,7 +97,7 @@ fun SearchedCocktail() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "The Most Popular cocktails",
+                    text = "Search Cocktail",
                     style = MaterialTheme.typography.headlineMedium,
                     fontStyle = FontStyle.Italic,
                     color = DeepViolett40,
