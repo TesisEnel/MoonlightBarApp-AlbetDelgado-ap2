@@ -1,36 +1,47 @@
 Moonlight Bar
 
-El proyecto "Moonlight Bar" es una aplicación de cócteles construida en Kotlin utilizando las tecnologías de Android Studio y Jetpack Compose. Proporciona una variedad de recetas de cócteles, cada una completa con lista de ingredientes, instrucciones de preparación y categoría.
+![moonlightBar](https://github.com/Rhazerpk/MoonlightBarApp/assets/112819827/fb9a274f-7f7d-4cc4-9c32-ada85d3f39bc)
 
-![moonlightBar](https://github.com/Rhazerpk/MoonlightBarApp/assets/112819827/60c8eae1-af6a-4adf-b802-ebe6cdd29fac)
+El proyecto "Moonlight Bar" es una aplicación de cócteles construida en Kotlin, utilizando las tecnologías de Android Studio y Jetpack Compose. Ofrece una amplia variedad de recetas de cócteles, cada una detallada con su lista de ingredientes, instrucciones de preparación y categoría.
 
 🚀 Empezar
 
-Para empezar a utilizar el proyecto, siga las siguientes instrucciones.
+Para comenzar a utilizar el proyecto, sigue las siguientes instrucciones:
 
 Clona el repositorio
 git clone https://github.com/rhazerpk/MoonlightBar.git
-Abra el proyecto con Android Studio.
+Abre el proyecto con Android Studio.
+
+
 📚 Características
 
-Recetas de cócteles: amplia variedad de recetas de cócteles que incluyen ingredientes, instrucciones,categorías y entre otras.
-Búsqueda: busque cócteles específicos por nombre o ingredientes.
-Favoritos: marque sus recetas favoritas para un acceso fácil en la sección de favoritos.
+Recetas de cócteles: Ofrece una amplia variedad de recetas de cócteles, incluyendo información detallada como ingredientes, instrucciones y categorías.
+Búsqueda: Permite buscar cócteles específicos por nombre o ingredientes.
+Favoritos: Marca tus recetas favoritas para acceder fácilmente a ellas en la sección de favoritos.
+
+
 🏗️ Construido con
 
 Kotlin
 Jetpack Compose
 Android Studio
+
+
 🧪 Pruebas
 
-Este proyecto incluye tanto pruebas unitarias como de interfaz de usuario.
+Este proyecto incluye pruebas tanto unitarias como de interfaz de usuario.
 
-Para ejecutar las pruebas unitarias, ejecute el siguiente comando en Android Studio:
+Para ejecutar las pruebas unitarias, utiliza el siguiente comando en Android Studio:
+
 
 ./gradlew test
-Para ejecutar las pruebas de interfaz de usuario, ejecute:
+Para ejecutar las pruebas de interfaz de usuario, utiliza:
 
+bash
+Copy code
 ./gradlew connectedAndroidTest
-⭐️ Mostrar el apoyo
 
-Dale una ⭐️ si te gusta este proyecto!
+
+⭐️ ¡Mostrar Apoyo!
+
+¡Dale una ⭐️ si te gusta este proyecto! ¡Tu apoyo significa mucho!
