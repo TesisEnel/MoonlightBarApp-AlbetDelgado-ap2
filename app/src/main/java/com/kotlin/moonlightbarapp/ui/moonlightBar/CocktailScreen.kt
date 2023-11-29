@@ -13,13 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bedtime
@@ -42,10 +39,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -171,18 +165,15 @@ fun CocktailGrid(
     navController: NavController,
     viewModel: DrinkViewModel = hiltViewModel()
 ) {
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(2.dp),
         modifier = Modifier.padding(5.dp)
-
     ) {
         items(cocktails) { cocktail ->
             CocktailCard(cocktail,navController,viewModel)
         }
     }
-
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "RememberReturnType")
@@ -191,11 +182,7 @@ fun CocktailGrid(
 fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var textFieldValue by remember { mutableStateOf("") }
-    var showSnackbar by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
-
-
-
 
     Scaffold(
         topBar = {
@@ -249,15 +236,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                         iconoIzquierdo = {
                             IconButton(onClick = {
                                 keyboardController?.hide()
-                                     navController.navigate(Destination.SearchCocktail.route)
-//                                val cocktailFound = uiState.drinks.find {
-//                                    it.strDrink.lowercase() == textFieldValue.lowercase()
-//                                }
-//                                if(cocktailFound != null){
-//                                    navController.navigate("${Destination.ChosenCocktail.route}/${cocktailFound.strDrink}")
-//                                } else {
-//                                    showSnackbar = true
-//                                }
+                                navController.navigate(Destination.SearchCocktail.route)
                             }) {
                                 Icon(imageVector = Icons.Default.Search, contentDescription = null)
                             }
@@ -267,52 +246,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                             imeAction = ImeAction.Search
                         ),
                         textoQueDesaparece = "Search cocktail",
-                        keyboardActions = KeyboardActions(
-                            onDone = {
-                                keyboardController?.hide()
-                                val cocktailFound = uiState.drinks.find {
-                                    it.strDrink.lowercase() == textFieldValue.lowercase()
-                                }
-                                if(cocktailFound != null){
-                                    navController.navigate("${Destination.ChosenCocktail.route}/${cocktailFound.strDrink}")
-                                } else {
-                                    showSnackbar = true
-                                }
-                            })
                     )
-
-
-                    if (textFieldValue.isNotEmpty()) {
-
-                        val filteredCocktails = uiState.drinks.filter {
-                            it.strDrink.lowercase().contains(textFieldValue.lowercase())
-                        }
-
-
-                        LazyColumn {
-                            items(filteredCocktails) { cocktail ->
-                                Text(
-                                    text = cocktail.strDrink,
-
-                                )
-                            }
-                        }
-                    }
-
-                    if (showSnackbar) {
-                        Surface(color = Morado40) {
-                            Snackbar(
-                                modifier = Modifier.padding(16.dp),
-                                action = {
-                                    TextButton(onClick = { showSnackbar = false }) {
-                                        Text("OK", color = Morado100)
-                                    }
-                                }
-                            ) {
-                                Text("Cocktail not found", color = Morado100)
-                            }
-                        }
-                    }
 
                     if (uiState.isLoading) {
                         Box(
@@ -330,7 +264,6 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                     } else {
                         CocktailGrid(uiState.drinks.take(6), navController)
                     }
-
                     FloatingActionButton(
                         onClick = { viewModel.getRandomCocktail() },
                         modifier = Modifier
