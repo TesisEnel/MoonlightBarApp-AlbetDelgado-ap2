@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b789fd1d-9638-4eba-b0ca-6139c2f806c9" name="Changes" comment="agregando a SearchedCocktail cocteles">
+    <list default="true" id="0242be48-48fa-4c66-b13b-8685b5abcb48" name="Changes" comment="cambios">
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
@@ -18,14 +18,7 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/data/repository/DrinkRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/data/repository/DrinkRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/components/AddImagenDecente.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/components/AddImagenDecente.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/CocktailScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/CocktailScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/FavoriteCocktail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/FavoriteCocktail.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/PopularCocktail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/PopularCocktail.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/SearchedCocktail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/moonlightBar/SearchedCocktail.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/navigation/NavigationScreen.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/navigation/NavigationScreen.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/viewmodel/DrinkViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/kotlin/moonlightbarapp/ui/viewmodel/DrinkViewModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +26,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/reymelindelgadomaria/.android/avd/API_34.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[20d53]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -707,7 +700,21 @@
       <option name="project" value="LOCAL" />
       <updated>1701259415443</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="agregando pantalla SearchedCocktail">
+      <created>1701284662916</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1701284662916</updated>
+    </task>
+    <task id="LOCAL-00019" summary="cambios">
+      <created>1701285023388</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1701285023388</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -728,8 +735,9 @@
     <MESSAGE value="improving ui login" />
     <MESSAGE value="adding navigation ui" />
     <MESSAGE value="agregando pantala SearchedCocktail" />
-    <MESSAGE value="agregando pantalla SearchedCocktail" />
     <MESSAGE value="agregando a SearchedCocktail cocteles" />
-    <option name="LAST_COMMIT_MESSAGE" value="agregando a SearchedCocktail cocteles" />
+    <MESSAGE value="agregando pantalla SearchedCocktail" />
+    <MESSAGE value="cambios" />
+    <option name="LAST_COMMIT_MESSAGE" value="cambios" />
   </component>
 </project>

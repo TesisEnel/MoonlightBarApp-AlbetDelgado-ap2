@@ -142,7 +142,7 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                             val cocktailFound = uiState.drinksByLetter.find {
                                 it.strDrink.lowercase() == textFieldValue.lowercase()
                             }
-                            if(cocktailFound != null){
+                            if (cocktailFound != null) {
                                 navController.navigate("${Destination.ChosenCocktail.route}/${cocktailFound.strDrink}")
                             } else {
                                 showSnackbar = true
@@ -169,10 +169,16 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                             }
                         })
                 )
-                CocktailLabel1(uiState.drinksByLetter,navController,viewModel)
+
+// Filtrar los cócteles por lo escrito
+                val filteredCocktails = uiState.drinksByLetter.filter {
+                    it.strDrink.lowercase().contains(textFieldValue.lowercase())
+                }
+
+//  cócteles filtrados
+                CocktailLabel1(filteredCocktails, navController, viewModel)
             }
-        }
-    )
+        })
 }
 
 @SuppressLint("UnrememberedMutableState")
