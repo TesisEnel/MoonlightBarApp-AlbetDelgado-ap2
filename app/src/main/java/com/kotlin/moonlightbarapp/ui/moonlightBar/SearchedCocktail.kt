@@ -36,15 +36,17 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
-import com.kotlin.moonlightbarapp.ui.components.AddImageDecente
+import com.kotlin.moonlightbarapp.ui.components.AddDecentImage
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchedCocktail() {
@@ -102,8 +104,7 @@ fun SearchedCocktail() {
                     modifier = Modifier.padding(top = 40.dp, start = 5.dp),
 
                     )
-
-                CocktailLabel()
+                CocktailLabel1()
 
             }
         }
@@ -167,20 +168,12 @@ fun CocktailCard1() {
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-                AddImageDecente(
+                AddDecentImage(
                     url = cocktail.strDrinkThumb,
                     description = "Image",
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier.size(100.dp)
                 )
-                Column(
-                    modifier = Modifier.padding(start = 70.dp)
-                ) {
-                    Text(
-                        text = "Ingredients:",
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                    IngredientsList1(cocktail)
-                }
+
             }
             Divider()
 
@@ -199,7 +192,7 @@ fun CocktailCard1() {
 @Composable
 fun CocktailLabel1(){
     LazyVerticalGrid(
-        columns = GridCells.Fixed(1),
+        columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(2.dp),
         modifier = Modifier
             .fillMaxSize()

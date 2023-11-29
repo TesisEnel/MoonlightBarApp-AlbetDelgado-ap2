@@ -48,6 +48,7 @@ import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddDecentImage
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
+import com.kotlin.moonlightbarapp.ui.theme.Morado30
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 import com.kotlin.moonlightbarapp.util.Destination
@@ -175,14 +176,16 @@ fun CocktailCard(cocktail: DrinkDto,navController: NavController) {
                AddDecentImage(
                    url = cocktail.strDrinkThumb,
                    description = "Image",
-                   modifier = Modifier.size(85.dp)
+                   modifier = Modifier.size(95.dp)
+                       .padding(start =10.dp)
                )
                 Column(
                     modifier = Modifier.padding(start = 70.dp)
                 ) {
                     Text(
                         text = "Ingredients:",
-                        style = MaterialTheme.typography.titleSmall
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Morado30
                     )
                     IngredientsList(cocktail)
                 }
@@ -191,11 +194,11 @@ fun CocktailCard(cocktail: DrinkDto,navController: NavController) {
 
             Text(
                 text = cocktail.strDrink,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(top = 8.dp, start = 15.dp)
+                    .padding(top = 8.dp, )
             )
         }
     }
