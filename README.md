@@ -21,6 +21,20 @@ Para comenzar a utilizar el proyecto, sigue las siguientes instrucciones:
 - **Búsqueda:** Permite buscar cócteles específicos por nombre o ingredientes.
 - **Favoritos:** Marca tus recetas favoritas para acceder fácilmente a ellas en la sección de favoritos.
 
+  ## 👀👀Preview
+  - **Home**
+  ![WhatsApp Image 2023-11-29 at 4 03 34 PM](https://github.com/Rhazerpk/MoonlightBarApp/assets/118750598/b15ec7c5-2cc4-463a-b7c1-34f428de591c)
+- **Instructions**
+![WhatsApp Image 2023-11-29 at 4 03 34 PM (1)](https://github.com/Rhazerpk/MoonlightBarApp/assets/118750598/47685360-6f55-4d87-aec3-be33c61394ab)
+-**Searched**
+![WhatsApp Image 2023-11-29 at 4 03 34 PM (2)](https://github.com/Rhazerpk/MoonlightBarApp/assets/118750598/cbd0af36-54c9-4516-863b-856d8cdd4c3a)
+
+![WhatsApp Image 2023-11-29 at 4 03 35 PM](https://github.com/Rhazerpk/MoonlightBarApp/assets/118750598/9b5b234f-4e75-4f3e-8c06-773fda348059)
+- **List of populars cocktails**
+![WhatsApp Image 2023-11-29 at 4 03 35 PM (1)](https://github.com/Rhazerpk/MoonlightBarApp/assets/118750598/22ede77e-24ee-4fed-a3c9-633b472cf9a8)
+- **List of Favorites Cocktails**
+![WhatsApp Image 2023-11-29 at 4 03 35 PM (2)](https://github.com/Rhazerpk/MoonlightBarApp/assets/118750598/42e6ce4b-23a6-43de-90eb-6721ea1729c7)
+
 ## 🏗️ Construido con
 
 - Kotlin
