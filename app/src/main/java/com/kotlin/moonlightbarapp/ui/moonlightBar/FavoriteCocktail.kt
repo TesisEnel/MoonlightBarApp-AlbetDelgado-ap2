@@ -54,6 +54,7 @@ import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.local.entities.FavoriteDrink
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddImage
+import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.theme.Morado83
@@ -112,8 +113,9 @@ fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
             ) {
                 Text(
                     text = "Favorites cocktails",
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontStyle= FontStyle.Italic,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontStyle = FontStyle.Italic,
+                    color = DeepViolett40,
                     modifier = Modifier.padding(top = 16.dp)
                 )
                 CocktailLabel(favorites, navController)

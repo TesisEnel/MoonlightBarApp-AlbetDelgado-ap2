@@ -129,7 +129,7 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),
                     modifier = Modifier.padding(top = 40.dp, start = 5.dp),
                 )
 
-                // Agregar la barra de búsqueda aquí
+                //  barra de búsqueda
                 MyTextField(
                     modificador = Modifier
                         .offset(y = (-5).dp),

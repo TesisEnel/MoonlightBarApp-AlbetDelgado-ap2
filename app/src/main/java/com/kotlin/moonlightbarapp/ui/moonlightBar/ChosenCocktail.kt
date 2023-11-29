@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bedtime
+import androidx.compose.material3.ElevatedSuggestionChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,6 +50,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.kotlin.moonlightbarapp.ui.components.AddImage
+import com.kotlin.moonlightbarapp.ui.theme.Gris_morado50
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
@@ -127,7 +129,9 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
                 }
             )
         },
-    ) {}
+    ) {
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -140,7 +144,10 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
             url = viewModel.drink.strDrinkThumb,
             description = "Image",
             modifier = Modifier.size(96.dp)
+
+
         )
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -148,8 +155,18 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
             contentAlignment = Alignment.BottomCenter,
         ) {
 
+
             IngredientsList(ingredients = ingredientsWithImages)
         }
+        Box (
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.padding(top = 210.dp)
+        ){
+            TipoDeTraggo(
+                strType = viewModel.drink.strDrink
+            )
+        }
+
         Spacer(modifier = Modifier.height(10.dp))
 
         Box(
@@ -159,6 +176,7 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
             contentAlignment = Alignment.BottomCenter,
         )
         {
+
 
             Surface(
                 modifier = Modifier
@@ -181,12 +199,24 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp
                     ),
+                    text = "Category: ${viewModel.drink.strCategory}"
+                )
+
+                Text(modifier = Modifier
+                    .height(5.dp)
+                    .padding(top = 50.dp)
+                    .padding(start = 10.dp),
+                    fontStyle = FontStyle.Italic,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp
+                    ),
                     text = "Instructions:"
                 )
                 Text(
                     modifier = Modifier
                         .height(5.dp)
-                        .padding(top = 40.dp)
+                        .padding(top = 80.dp)
                         .padding(start = 10.dp)
                         .padding(end = 15.dp),
                     overflow = TextOverflow.Visible,
@@ -221,7 +251,7 @@ fun IngredientsList(ingredients: List<Triple<String, String, String?>>) {
             }
         }
         Spacer(modifier = Modifier.height(30.dp))
-        LinearProgressIndicator(progress = progress, modifier = Modifier.fillMaxWidth())
+        LinearProgressIndicator(progress = progress, modifier = Modifier.fillMaxWidth(), trackColor = Gris_morado50)
     }
 }
 
@@ -266,3 +296,11 @@ fun getIngredientImageUrl(ingredientName: String?): String{
     return "https://www.thecocktaildb.com/images/ingredients/${ingredientName}-Small.png"
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TipoDeTraggo(strType: String) {
+    ElevatedSuggestionChip(
+        onClick = { /* Do something! */ },
+        label = { Text(strType) }
+    )
+}
