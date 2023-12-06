@@ -23,7 +23,6 @@ import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocalBar
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Shuffle
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -230,10 +229,12 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                             .offset(y = (-5).dp),
                         valor = textFieldValue,
                         alCambiarValor = { newValue -> textFieldValue = newValue },
-                        iconoDerecho = {
-                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                        onClick = {
+                            keyboardController?.hide()
+                            navController.navigate(Destination.SearchCocktail.route)
                         },
-                        iconoIzquierdo = {
+                          iconoIzquierdo = {
+
                             IconButton(onClick = {
                                 keyboardController?.hide()
                                 navController.navigate(Destination.SearchCocktail.route)
@@ -244,8 +245,7 @@ fun CocktailTopBar(viewModel: DrinkViewModel, navController: NavController) {
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Search
-                        ),
-                        textoQueDesaparece = "Search cocktail",
+                        )
                     )
 
                     if (uiState.isLoading) {

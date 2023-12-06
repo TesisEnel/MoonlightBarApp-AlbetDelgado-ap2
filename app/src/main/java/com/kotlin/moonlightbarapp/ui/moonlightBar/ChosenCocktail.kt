@@ -53,7 +53,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -67,11 +66,19 @@ import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 import com.kotlin.moonlightbarapp.util.Destination
 
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navController: NavController ) {
+fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navController: NavController,cocktail: DrinkDto, ) {
+    val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
+    var favoriteOn by mutableStateOf(false)
+    val currentFavorite = favorites.find {
+        it.strDrink == cocktail.strDrink
+    }
 
+    if(currentFavorite != null){
+        favoriteOn = true
+    }
     DisposableEffect(Unit) {
         viewModel.getCocktailByName(cocktailName)
         onDispose {
@@ -167,6 +174,40 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
 
 
             IngredientsList(ingredients = ingredientsWithImages)
+        }
+
+        Box(modifier = Modifier.padding(start = 345.dp)
+        )
+        {
+            IconToggleButton(
+                checked = favoriteOn,
+                onCheckedChange = {
+                    favoriteOn = it
+                    if (it) {
+                        if (favorites.find { it.strDrink == cocktail.strDrink } == null) {
+                            viewModel.save(cocktail)
+                        }
+                    } else {
+                        if (currentFavorite != null) {
+                            viewModel.delete(currentFavorite)
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(end = 2.dp)
+            ) {
+                if (favoriteOn) {
+                    Icon(
+                        Icons.Filled.Favorite, contentDescription = "Localized description",
+                    )
+                } else {
+                    Icon(
+                        Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
+                        tint = Morado83
+                    )
+                }
+            }
         }
         Box (
             contentAlignment = Alignment.Center,
@@ -314,48 +355,4 @@ fun TipoDeTraggo(strType: String) {
         onClick = { /* Do something! */ },
         label = { Text(strType, fontStyle = FontStyle.Italic ) }
     )
-}
-
-@SuppressLint("UnrememberedMutableState")
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BotonFavorito(
-                  cocktail: DrinkDto,
-                  navController: NavController,
-                  viewModel: DrinkViewModel = hiltViewModel()
-)
-{
-    val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
-    var favoriteOn by mutableStateOf(false)
-    val currentFavorite = favorites.find {
-        it.strDrink == cocktail.strDrink
-    }
-
-    if(currentFavorite != null){
-        favoriteOn = true
-    }
-    IconToggleButton(
-        checked = favoriteOn,
-        onCheckedChange = { favoriteOn = it },
-        modifier = Modifier
-            //.align(Alignment.TopEnd)
-            .padding(end = 2.dp)
-    ) {
-        if (favoriteOn) {
-            Icon(
-                Icons.Filled.Favorite, contentDescription = "Localized description",
-            )
-            if (favorites.find { it.strDrink == cocktail.strDrink } == null) {
-                viewModel.save(cocktail)
-            }
-        } else {
-            Icon(
-                Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
-                tint = Morado83
-            )
-            if (currentFavorite != null) {
-                viewModel.delete(currentFavorite)
-            }
-        }
-    }
 }

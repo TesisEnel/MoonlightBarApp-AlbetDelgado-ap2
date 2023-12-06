@@ -33,6 +33,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.kotlin.moonlightbarapp.R
+import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.moonlightBar.CardFooter
 import com.kotlin.moonlightbarapp.ui.moonlightBar.ChosenCocktail
 import com.kotlin.moonlightbarapp.ui.moonlightBar.CocktailTopBar
@@ -90,7 +91,7 @@ fun AppNavigation(navController: NavHostController) {
             arguments = listOf(navArgument("cocktailName") { type = NavType.StringType })
         ) { capture ->
             val cocktailName = capture.arguments?.getString("cocktailName") ?: ""
-            ChosenCocktail(cocktailName = cocktailName, viewModel, navController)
+            ChosenCocktail(cocktailName = cocktailName, viewModel, navController, DrinkDto())
         }
         composable(Destination.SearchCocktail.route) {
             SearchedCocktail(viewModel,navController)

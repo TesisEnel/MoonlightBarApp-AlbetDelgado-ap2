@@ -26,11 +26,13 @@ fun MyTextField(
     alCambiarValor: (String) -> Unit,
     textoQueDesaparece: String? = null,
     textoQueSube: String? = null,
-    iconoIzquierdo:( @Composable () -> Unit)?=null,
-    iconoDerecho:( @Composable () -> Unit)?=null,
+    iconoIzquierdo: @Composable() (() -> Unit)? = null,
+    iconoDerecho: @Composable() (() -> Unit)? = null,
     modificador: Modifier = Modifier,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    onClick: () -> Unit,
+
 
 
     ) {

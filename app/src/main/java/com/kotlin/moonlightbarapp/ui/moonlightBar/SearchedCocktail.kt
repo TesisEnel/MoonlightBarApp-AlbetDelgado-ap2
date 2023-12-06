@@ -134,23 +134,9 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                 )
 
                 MyTextField(
-                    modificador = Modifier
-                        .offset(y = (-5).dp),
                     valor = textFieldValue,
                     alCambiarValor = { newValue -> textFieldValue = newValue },
-                    iconoDerecho = {
-                        IconButton(onClick = { expanded = true }) {
-                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
-                        }
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            Box(modifier = Modifier.fillMaxWidth()) {
-                                CheckboxWithMoreOptions(viewModel)
-                            }
-                        }
-                    },
+                    textoQueDesaparece = "Type a cocktail",
                     iconoIzquierdo = {
                         IconButton(onClick = {
                             keyboardController?.hide()
@@ -166,11 +152,21 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                             Icon(imageVector = Icons.Default.Search, contentDescription = null)
                         }
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Search
-                    ),
-                    textoQueDesaparece = "Type a cocktail",
+                    iconoDerecho = {
+                        IconButton(onClick = { expanded = true }) {
+                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            Box(modifier = Modifier.fillMaxWidth()) {
+                                CheckboxWithMoreOptions(viewModel)
+                            }
+                        }
+                    },
+                    modificador = Modifier
+                        .offset(y = (-5).dp),
                     keyboardActions = KeyboardActions(
                         onDone = {
                             keyboardController?.hide()
@@ -182,8 +178,15 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                             } else {
                                 showSnackbar = true
                             }
-                        })
-                )
+                        }),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Search
+                    )
+                ) {
+                    keyboardController?.hide()
+                    navController.navigate(com.kotlin.moonlightbarapp.util.Destination.SearchCocktail.route)
+                }
 
 // Filtrar los cócteles por lo escrito
                 val filteredCocktails = uiState.drinksByLetter.filter {
