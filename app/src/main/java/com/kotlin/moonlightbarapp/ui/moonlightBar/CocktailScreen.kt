@@ -123,7 +123,9 @@ fun CocktailCard(
                         modifier = Modifier.size(50.dp)
                     )
                     Text(
+
                         text = cocktail.strDrink,
+                        fontSize=16.sp,
                         style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Left,
                         modifier = Modifier.padding(top = 16.dp, start = 5.dp)
@@ -135,7 +137,7 @@ fun CocktailCard(
                 onCheckedChange = { favoriteOn = it },
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(end = 2.dp)
+                    .padding(end = 2.dp, top = 1.dp)
             ) {
                 if (favoriteOn) {
                     Icon(

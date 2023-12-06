@@ -14,7 +14,7 @@ import com.kotlin.moonlightbarapp.ui.theme.Morado83
 
 
 @Composable
-fun AddDecentImage(
+fun AddImagenCuadradada(
     url: String,
     modifier: Modifier = Modifier,
     description: String,

@@ -46,7 +46,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
-import com.kotlin.moonlightbarapp.ui.components.AddDecentImage
+import com.kotlin.moonlightbarapp.ui.components.AddImagenCuadradada
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado30
@@ -129,6 +129,60 @@ fun MostPopularCocktails(viewModel: DrinkViewModel =  hiltViewModel(), navContro
         }
     )
 }
+@Composable
+fun CocktailCard(cocktail: DrinkDto) {
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        elevation = CardDefaults.elevatedCardElevation(10.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        modifier = Modifier
+            .padding(15.dp)
+            .size(width = 230.dp, height = 170.dp),
+        border = BorderStroke(1.dp, Color.Gray)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        )
+        {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                AddImagenCuadradada(
+                    url = cocktail.strDrinkThumb,
+                    description = "Image",
+                    modifier = Modifier
+                        .size(100.dp)
+                        .padding(start = 10.dp)
+                )
+                Column(
+                    modifier = Modifier.padding(start = 50.dp)
+                ) {
+                    Text(
+                        text = "Ingredients:",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Morado30
+
+                    )
+                    IngredientsList(cocktail)
+                }
+            }
+            Divider()
+
+            Text(
+                text = cocktail.strDrink,
+                color= Morado30,
+                style = MaterialTheme.typography.titleSmall,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 8.dp, end = 1.dp),
+            )
+        }
+    }
+}
 
 @Composable
 fun IngredientsList(cocktail: DrinkDto) {
@@ -146,62 +200,11 @@ fun IngredientsList(cocktail: DrinkDto) {
     )
 
     for (ingredient in ingredients) {
-        Text(text = ingredient, style = MaterialTheme.typography.titleMedium)
+        Text(text = ingredient, style = MaterialTheme.typography.titleMedium,)
     }
 }
 
-@Composable
-fun CocktailCard(cocktail: DrinkDto) {
-    Card(
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.elevatedCardElevation(10.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        modifier = Modifier
-            .padding(15.dp)
-            .size(width = 250.dp, height = 170.dp),
-        border = BorderStroke(1.dp, Color.Gray)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
-        )
-        {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-               AddDecentImage(
-                   url = cocktail.strDrinkThumb,
-                   description = "Image",
-                   modifier = Modifier
-                       .size(95.dp)
-                       .padding(start = 10.dp)
-               )
-                Column(
-                    modifier = Modifier.padding(start = 70.dp)
-                ) {
-                    Text(
-                        text = "Ingredients:",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Morado30
-                    )
-                    IngredientsList(cocktail)
-                }
-            }
-            Divider()
 
-            Text(
-                text = cocktail.strDrink,
-                style = MaterialTheme.typography.titleSmall,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 8.dp)
-            )
-        }
-    }
-}
 @Composable
 fun CocktailLabel(cocktail: List<DrinkDto>){
     LazyVerticalGrid(

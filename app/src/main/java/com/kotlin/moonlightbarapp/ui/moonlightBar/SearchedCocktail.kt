@@ -62,7 +62,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
-import com.kotlin.moonlightbarapp.ui.components.AddDecentImage
+import com.kotlin.moonlightbarapp.ui.components.AddImagenCuadradada
 import com.kotlin.moonlightbarapp.ui.components.MyTextField
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
@@ -75,6 +75,7 @@ import com.kotlin.moonlightbarapp.util.Destination
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
+
 fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: NavController) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var textFieldValue by remember { mutableStateOf("") }
@@ -233,7 +234,7 @@ fun CocktailCard1(
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-                AddDecentImage(
+                AddImagenCuadradada(
                     url = cocktail.strDrinkThumb,
                     description = "Image",
                     modifier = Modifier.size(100.dp)
