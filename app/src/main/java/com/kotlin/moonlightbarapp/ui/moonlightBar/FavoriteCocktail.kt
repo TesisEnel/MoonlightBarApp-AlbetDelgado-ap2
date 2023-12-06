@@ -64,7 +64,7 @@ import com.kotlin.moonlightbarapp.util.Destination
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
+fun FavoriteCocktail(viewModel: DrinkViewModel, navController: NavController) {
     val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -88,22 +88,20 @@ fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
                             fontWeight = FontWeight.Bold,
                             shadow = Shadow(Color.Yellow),
                             textAlign = TextAlign.Center,
-                            ),
+                        ),
                         modifier = Modifier.fillMaxWidth()
-
                     )
                 },
                 actions = {
-                    IconButton(onClick = {navController.navigate(Destination.MoonBar.route)}) {
+                    IconButton(onClick = { navController.navigate(Destination.MoonBar.route) }) {
                         Icon(
                             imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",
-                            )
+                        )
                     }
                 }
             )
         },
-
         content = { innerPadding ->
             Column(
                 modifier = Modifier
@@ -238,7 +236,7 @@ fun CocktailFavoriteCard(
                     } else {
                         favoriteOn = it
                         if (favorites.find { it.strDrink == cocktail.strDrink } == null) {
-                            val currentCocktail : DrinkDto? = uiState.drinks.find {
+                            val currentCocktail: DrinkDto? = uiState.drinks.find {
                                 it.strDrink == cocktail.strDrink
                             }
                             if (currentCocktail != null) {

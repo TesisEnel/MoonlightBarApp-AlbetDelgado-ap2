@@ -80,7 +80,6 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
     var textFieldValue by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     var showSnackbar by remember { mutableStateOf(false) }
-
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -132,7 +131,6 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                     color = DeepViolett40,
                     modifier = Modifier.padding(top = 40.dp, start = 5.dp),
                 )
-
                 MyTextField(
                     valor = textFieldValue,
                     alCambiarValor = { newValue -> textFieldValue = newValue },
@@ -178,25 +176,23 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                             } else {
                                 showSnackbar = true
                             }
-                        }),
+                        }
+                    ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Search
                     )
                 ) {
                     keyboardController?.hide()
-                    navController.navigate(com.kotlin.moonlightbarapp.util.Destination.SearchCocktail.route)
+                    navController.navigate(Destination.SearchCocktail.route)
                 }
-
-// Filtrar los cócteles por lo escrito
                 val filteredCocktails = uiState.drinksByLetter.filter {
                     it.strDrink.lowercase().contains(textFieldValue.lowercase())
                 }
-
-//  cócteles filtrados
                 CocktailLabel1(filteredCocktails, navController, viewModel)
             }
-        })
+        }
+    )
 }
 
 @SuppressLint("UnrememberedMutableState")
@@ -269,7 +265,8 @@ fun CocktailCard1(
                     if (favorites.find { it.strDrink == cocktail.strDrink } == null) {
                         viewModel.save(cocktail)
                     }
-                } else {
+                }
+                else {
                     Icon(
                         Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
                         tint = Morado83
@@ -279,7 +276,6 @@ fun CocktailCard1(
                     }
                 }
             }
-
         }
     }
 }
@@ -305,7 +301,7 @@ fun CocktailLabel1(
 }
 @Composable
 fun CheckboxWithMoreOptions(viewModel: DrinkViewModel) {
-    var Checks by remember { mutableStateOf(false) }
+    var checks by remember { mutableStateOf(false) }
 
     val ingredients = listOfNotNull(
         viewModel.drink.strIngredient1,
@@ -331,16 +327,14 @@ fun CheckboxWithMoreOptions(viewModel: DrinkViewModel) {
 
     Column {
         Checkbox(
-            checked = Checks,
+            checked = checks,
             onCheckedChange = { isChecked ->
-                Checks = isChecked
-                // Cuando el checkbox principal se selecciona, seleccionar todos los ingredientes
+                checks = isChecked
                 if (isChecked) {
                     ingredientStates.keys.forEach { ingredient ->
                         ingredientStates[ingredient] = true
                     }
                 }
-
                 else {
                     ingredientStates.keys.forEach { ingredient ->
                         ingredientStates[ingredient] = false
@@ -348,9 +342,8 @@ fun CheckboxWithMoreOptions(viewModel: DrinkViewModel) {
                 }
             }
         )
-        Text(text = "Ingredientes")
-
-        if (Checks) {
+        Text(text = "Ingredients")
+        if (checks) {
             ingredientStates.forEach { (ingredient, isChecked) ->
                 Checkbox(
                     checked = isChecked,
