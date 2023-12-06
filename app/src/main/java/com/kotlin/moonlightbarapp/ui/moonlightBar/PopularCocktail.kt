@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddDecentImage
 import com.kotlin.moonlightbarapp.ui.theme.DeepViolett40
@@ -51,10 +52,11 @@ import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado30
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
+import com.kotlin.moonlightbarapp.util.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MostPopularCocktails(viewModel: DrinkViewModel =  hiltViewModel()) {
+fun MostPopularCocktails(viewModel: DrinkViewModel =  hiltViewModel(), navController:NavController) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -83,7 +85,7 @@ fun MostPopularCocktails(viewModel: DrinkViewModel =  hiltViewModel()) {
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = {navController.navigate(Destination.MoonBar.route)}) {
                         Icon(
                             imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",

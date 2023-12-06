@@ -94,7 +94,7 @@ fun FavoriteCocktail(viewModel: DrinkViewModel,navController: NavController) {
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = {navController.navigate(Destination.MoonBar.route)}) {
                         Icon(
                             imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",

@@ -1,7 +1,7 @@
-package com.kotlin.moonlightbarapp.ui.moonlightBar
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,7 +24,9 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,6 +38,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -78,6 +81,8 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
     val keyboardController = LocalSoftwareKeyboardController.current
     var showSnackbar by remember { mutableStateOf(false) }
 
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -104,7 +109,7 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                     )
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
+                    IconButton(onClick = {navController.navigate(Destination.MoonBar.route)}) {
                         Icon(
                             imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",
@@ -134,7 +139,17 @@ fun SearchedCocktail(viewModel: DrinkViewModel = hiltViewModel(),navController: 
                     valor = textFieldValue,
                     alCambiarValor = { newValue -> textFieldValue = newValue },
                     iconoDerecho = {
-                        Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                        IconButton(onClick = { expanded = true }) {
+                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            Box(modifier = Modifier.fillMaxWidth()) {
+                                CheckboxWithMoreOptions(viewModel)
+                            }
+                        }
                     },
                     iconoIzquierdo = {
                         IconButton(onClick = {
@@ -282,6 +297,66 @@ fun CocktailLabel1(
     ) {
         items(cocktails) { cocktail ->
             CocktailCard1(cocktail,navController,viewModel)
+        }
+    }
+}
+@Composable
+fun CheckboxWithMoreOptions(viewModel: DrinkViewModel) {
+    var Checks by remember { mutableStateOf(false) }
+
+    val ingredients = listOfNotNull(
+        viewModel.drink.strIngredient1,
+        viewModel.drink.strIngredient2,
+        viewModel.drink.strIngredient3,
+        viewModel.drink.strIngredient4,
+        viewModel.drink.strIngredient5,
+        viewModel.drink.strIngredient6,
+        viewModel.drink.strIngredient7,
+        viewModel.drink.strIngredient8,
+        viewModel.drink.strIngredient9,
+        viewModel.drink.strIngredient10,
+        viewModel.drink.strIngredient11,
+        viewModel.drink.strIngredient12,
+        viewModel.drink.strIngredient13,
+        viewModel.drink.strIngredient14,
+        viewModel.drink.strIngredient15
+    )
+    val ingredientStates = remember { mutableStateMapOf<String, Boolean>() }
+    ingredients.forEach { ingredient ->
+        ingredientStates[ingredient] = false
+    }
+
+    Column {
+        Checkbox(
+            checked = Checks,
+            onCheckedChange = { isChecked ->
+                Checks = isChecked
+                // Cuando el checkbox principal se selecciona, seleccionar todos los ingredientes
+                if (isChecked) {
+                    ingredientStates.keys.forEach { ingredient ->
+                        ingredientStates[ingredient] = true
+                    }
+                }
+
+                else {
+                    ingredientStates.keys.forEach { ingredient ->
+                        ingredientStates[ingredient] = false
+                    }
+                }
+            }
+        )
+        Text(text = "Ingredientes")
+
+        if (Checks) {
+            ingredientStates.forEach { (ingredient, isChecked) ->
+                Checkbox(
+                    checked = isChecked,
+                    onCheckedChange = { isIngredientChecked ->
+                        ingredientStates[ingredient] = isIngredientChecked
+                    }
+                )
+                Text(text = ingredient)
+            }
         }
     }
 }

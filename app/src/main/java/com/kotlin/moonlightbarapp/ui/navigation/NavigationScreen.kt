@@ -1,5 +1,6 @@
 package com.kotlin.moonlightbarapp.ui.navigation
 
+import SearchedCocktail
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +38,7 @@ import com.kotlin.moonlightbarapp.ui.moonlightBar.ChosenCocktail
 import com.kotlin.moonlightbarapp.ui.moonlightBar.CocktailTopBar
 import com.kotlin.moonlightbarapp.ui.moonlightBar.FavoriteCocktail
 import com.kotlin.moonlightbarapp.ui.moonlightBar.MostPopularCocktails
-import com.kotlin.moonlightbarapp.ui.moonlightBar.SearchedCocktail
+
 import com.kotlin.moonlightbarapp.ui.theme.MoonlightBarAppTheme
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
@@ -80,7 +81,7 @@ fun AppNavigation(navController: NavHostController) {
             CocktailTopBar(viewModel, navController)
         }
         composable(Destination.Populares.route) {
-            MostPopularCocktails(viewModel)
+            MostPopularCocktails(viewModel,navController)
         }
         composable(Destination.Favoritos.route) {
             FavoriteCocktail(viewModel, navController)

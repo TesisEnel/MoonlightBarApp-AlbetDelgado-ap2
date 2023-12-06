@@ -21,10 +21,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Bedtime
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ElevatedSuggestionChip
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -33,6 +36,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,12 +53,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.kotlin.moonlightbarapp.data.remote.dto.DrinkDto
 import com.kotlin.moonlightbarapp.ui.components.AddImage
 import com.kotlin.moonlightbarapp.ui.theme.Gris22
 import com.kotlin.moonlightbarapp.ui.theme.Morado100
 import com.kotlin.moonlightbarapp.ui.theme.Morado40
+import com.kotlin.moonlightbarapp.ui.theme.Morado83
 import com.kotlin.moonlightbarapp.ui.viewmodel.DrinkViewModel
 import com.kotlin.moonlightbarapp.util.Destination
 
@@ -120,7 +130,7 @@ fun ChosenCocktail(cocktailName: String, viewModel: DrinkViewModel, navControlle
                     }
                 },
                 actions = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {navController.navigate(Destination.MoonBar.route)}) {
                         Icon(
                             imageVector = Icons.Filled.Bedtime,
                             contentDescription = "Localized description",
@@ -304,4 +314,48 @@ fun TipoDeTraggo(strType: String) {
         onClick = { /* Do something! */ },
         label = { Text(strType, fontStyle = FontStyle.Italic ) }
     )
+}
+
+@SuppressLint("UnrememberedMutableState")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BotonFavorito(
+                  cocktail: DrinkDto,
+                  navController: NavController,
+                  viewModel: DrinkViewModel = hiltViewModel()
+)
+{
+    val favorites by viewModel.favoriteDrinks.collectAsStateWithLifecycle()
+    var favoriteOn by mutableStateOf(false)
+    val currentFavorite = favorites.find {
+        it.strDrink == cocktail.strDrink
+    }
+
+    if(currentFavorite != null){
+        favoriteOn = true
+    }
+    IconToggleButton(
+        checked = favoriteOn,
+        onCheckedChange = { favoriteOn = it },
+        modifier = Modifier
+            //.align(Alignment.TopEnd)
+            .padding(end = 2.dp)
+    ) {
+        if (favoriteOn) {
+            Icon(
+                Icons.Filled.Favorite, contentDescription = "Localized description",
+            )
+            if (favorites.find { it.strDrink == cocktail.strDrink } == null) {
+                viewModel.save(cocktail)
+            }
+        } else {
+            Icon(
+                Icons.Outlined.FavoriteBorder, contentDescription = "Localized description",
+                tint = Morado83
+            )
+            if (currentFavorite != null) {
+                viewModel.delete(currentFavorite)
+            }
+        }
+    }
 }
